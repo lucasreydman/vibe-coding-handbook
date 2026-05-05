@@ -86,11 +86,13 @@
   h1.title{
     font-family:var(--display);
     font-weight:400;
-    font-size:clamp(64px,13vw,200px);
-    line-height:.85;
-    letter-spacing:-.02em;
+    font-size:clamp(64px,12vw,180px);
+    line-height:1;
+    letter-spacing:-.015em;
     color:var(--ink);
   }
+  h1.title br + em,
+  h1.title br + span{display:inline-block;margin-top:.05em}
   h1.title em{
     font-style:italic;
     color:var(--terracotta);
@@ -435,11 +437,12 @@
   .progress{
     position:fixed;
     top:0;left:0;
-    height:3px;
+    height:7px;
     background:var(--terracotta);
     z-index:99;
     width:0%;
     transition:width .1s;
+    box-shadow:0 1px 4px rgba(194,70,23,.4);
   }
 
   /* responsive */
@@ -458,17 +461,6 @@
 
 <!-- ───────── COVER ───────── -->
 <header class="cover">
-  <div class="top-rule">
-    <span>
-      <span>Vol. 01</span>
-      <span>· No. 005</span>
-    </span>
-    <span>Prepared for: Griffin</span>
-    <span>
-      <span>Edition / 2026</span>
-    </span>
-  </div>
-
   <div class="cover-title">
     <div class="eyebrow">A field manual / written for Griffin / first-time builder edition</div>
     <h1 class="title">Hey<br/><em>Griffin,</em><br/>let's <span class="amp">vibe.</span></h1>
