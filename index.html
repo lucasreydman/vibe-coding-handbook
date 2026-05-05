@@ -726,6 +726,18 @@
       <h3><span class="step">Step 05 / E</span>Inside VS Code</h3>
       <p>If you installed the <strong>Claude Code extension</strong> back in Chapter 3, you can also launch the agent without leaving the editor. Open the command palette with <kbd>Ctrl + Shift + P</kbd> and type <em>"Claude Code: Start"</em> — same agent, sidebar instead of a terminal. Use whichever feels better moment to moment.</p>
 
+      <h3><span class="step">Step 05 / F</span>Make it your own — <code>CLAUDE.md</code></h3>
+      <p>Claude Code reads a file called <span class="kw">CLAUDE.md</span> at the start of every conversation. This is where you bend Claude to your habits — enforce planning before coding, demand verification before "done," tell it to find root causes instead of patching symptoms, route hard tasks to Opus, etc. Two places it looks:</p>
+      <ul>
+        <li><span class="kw">$HOME\.claude\CLAUDE.md</span> — <strong>global</strong>; applies to every project on your machine</li>
+        <li><span class="kw">./CLAUDE.md</span> in a project root — <strong>per-project</strong>; layered on top of the global one for repo-specific rules</li>
+      </ul>
+      <p>I made you a starter file — a generalized version of mine. Drop it into the global slot:</p>
+      <div class="cmd multi"><button class="copy">Copy</button>mkdir $HOME\.claude -Force
+iwr https://lucasreydman.github.io/vibe-coding-handbook/CLAUDE.md -OutFile $HOME\.claude\CLAUDE.md</div>
+      <p>Browse it first if you want: <a class="link" href="https://lucasreydman.github.io/vibe-coding-handbook/CLAUDE.md" target="_blank" rel="noopener">CLAUDE.md ↗</a></p>
+      <p>The headline rules: <strong>plan before coding</strong>, <strong>verify before "done"</strong>, <strong>find root causes — don't paper over symptoms</strong>, <strong>keep diffs small</strong>, <strong>match the model to the task</strong>. Edit it whenever you find yourself correcting Claude on the same thing twice — that correction belongs in the file so you don't have to repeat it.</p>
+
       <div class="note"><b>Etiquette</b>Always read the diff before approving a change. Claude is fast and confident — that combination occasionally produces fast, confident mistakes. Trust, but verify.</div>
 
     </div>
