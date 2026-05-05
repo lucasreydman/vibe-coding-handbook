@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Vibe Coder's Handbook · For Griffin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F2EBDD;
+    --paper-deep:#E9DFC9;
+    --ink:#1A1612;
+    --ink-soft:#3A332B;
+    --faded:#8B7E6A;
+    --rule:#1A1612;
+    --terracotta:#C24617;
+    --teal:#1F4138;
+    --mustard:#D9A23C;
+    --plum:#5A1F3A;
+    --sky:#3F7491;
+    --serif:"Fraunces",Georgia,serif;
+    --display:"Instrument Serif",Georgia,serif;
+    --sans:"Geist","Helvetica Neue",sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--ink);
+    font-size:17px;
+    line-height:1.55;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(194,70,23,.04), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(31,65,56,.05), transparent 50%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  a{color:inherit}
+  ::selection{background:var(--terracotta);color:var(--paper)}
+
+  /* ───────── HEADER / COVER ───────── */
+  .cover{
+    min-height:100vh;
+    padding:32px 48px 64px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    border-bottom:2px solid var(--ink);
+    position:relative;
+  }
+  .top-rule{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--ink);
+  }
+  .top-rule span{display:flex;gap:18px}
+  .cover-title{
+    margin:auto 0;
+    padding:60px 0 40px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:32px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .eyebrow::before,.eyebrow::after{
+    content:"";flex:0 0 40px;height:1px;background:var(--terracotta)
+  }
+  .eyebrow::after{flex:1}
+  h1.title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(64px,13vw,200px);
+    line-height:.85;
+    letter-spacing:-.02em;
+    color:var(--ink);
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--terracotta);
+    font-family:var(--display);
+  }
+  h1.title .amp{
+    font-style:italic;
+    color:var(--mustard);
+    padding:0 .05em;
+  }
+  .deck{
+    margin-top:36px;
+    max-width:680px;
+    font-family:var(--serif);
+    font-weight:300;
+    font-size:clamp(18px,2vw,24px);
+    line-height:1.4;
+    color:var(--ink-soft);
+    font-variation-settings:"opsz" 24,"SOFT" 50;
+  }
+  .cover-meta{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    border-top:1px solid var(--ink);
+    padding-top:18px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+  }
+  .cover-meta b{display:block;color:var(--faded);font-weight:500;margin-bottom:4px}
+
+  /* ───────── INDEX ───────── */
+  .index{
+    padding:80px 48px;
+    border-bottom:2px solid var(--ink);
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:80px;
+    align-items:start;
+  }
+  .index-label{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    position:sticky;
+    top:24px;
+  }
+  .index ol{
+    list-style:none;
+    counter-reset:idx;
+  }
+  .index li{
+    counter-increment:idx;
+    border-bottom:1px solid rgba(26,22,18,.18);
+    padding:18px 0;
+    display:grid;
+    grid-template-columns:60px 1fr auto;
+    align-items:baseline;
+    gap:20px;
+    transition:padding .25s ease, background .25s ease;
+  }
+  .index li:hover{padding-left:14px;background:rgba(194,70,23,.05)}
+  .index li::before{
+    content:counter(idx,decimal-leading-zero);
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--faded);
+  }
+  .index a{
+    text-decoration:none;
+    font-family:var(--display);
+    font-size:32px;
+    color:var(--ink);
+  }
+  .index li:hover a{color:var(--terracotta);font-style:italic}
+  .index .pg{font-family:var(--mono);font-size:12px;color:var(--faded)}
+
+  /* ───────── CHAPTERS ───────── */
+  .chapter{
+    padding:120px 48px 100px;
+    border-bottom:2px solid var(--ink);
+    position:relative;
+  }
+  .chapter-head{
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:48px;
+    margin-bottom:64px;
+    align-items:end;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:32px;
+  }
+  .ch-num{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:140px;
+    line-height:.85;
+    color:var(--terracotta);
+  }
+  .ch-meta{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--faded);
+    margin-bottom:20px;
+  }
+  h2.ch-title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(48px,7vw,96px);
+    line-height:.95;
+    letter-spacing:-.01em;
+  }
+  h2.ch-title em{font-style:italic;color:var(--terracotta)}
+
+  .chapter-body{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:80px;
+    max-width:1400px;
+  }
+  .ch-aside{
+    position:sticky;
+    top:32px;
+    align-self:start;
+    font-family:var(--serif);
+    font-size:18px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    font-variation-settings:"opsz" 18,"SOFT" 30;
+    border-left:2px solid var(--terracotta);
+    padding-left:20px;
+  }
+  .ch-aside .why{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    display:block;
+    margin-bottom:12px;
+  }
+  .ch-content > * + *{margin-top:28px}
+  .ch-content h3{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:400;
+    font-size:36px;
+    line-height:1.1;
+    color:var(--ink);
+    border-top:1px solid var(--ink);
+    padding-top:24px;
+  }
+  .ch-content h3 .step{
+    font-family:var(--mono);
+    font-style:normal;
+    font-size:13px;
+    color:var(--terracotta);
+    letter-spacing:.2em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .ch-content p{font-size:17px;line-height:1.6;color:var(--ink-soft)}
+  .ch-content p strong{color:var(--ink);font-weight:600}
+  .ch-content ul{margin-left:22px;color:var(--ink-soft)}
+  .ch-content ul li{margin-bottom:8px;padding-left:6px}
+  .ch-content ul li::marker{color:var(--terracotta)}
+
+  /* links */
+  .link{
+    color:var(--ink);
+    text-decoration:none;
+    background-image:linear-gradient(var(--terracotta),var(--terracotta));
+    background-position:0 100%;
+    background-repeat:no-repeat;
+    background-size:100% 2px;
+    padding-bottom:2px;
+    transition:background-size .25s, color .25s;
+  }
+  .link:hover{color:var(--terracotta);background-size:100% 100%;color:var(--paper)}
+
+  /* terminal command block */
+  .cmd{
+    position:relative;
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:2px;
+    padding:18px 70px 18px 22px;
+    font-family:var(--mono);
+    font-size:14px;
+    line-height:1.55;
+    margin:18px 0;
+    box-shadow:6px 6px 0 var(--terracotta);
+    overflow-x:auto;
+    white-space:pre;
+  }
+  .cmd::before{
+    content:"$";
+    color:var(--mustard);
+    margin-right:10px;
+  }
+  .cmd.multi::before{content:""}
+  .cmd .copy{
+    position:absolute;
+    top:8px;
+    right:8px;
+    background:transparent;
+    border:1px solid var(--paper);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    padding:6px 10px;
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .cmd .copy:hover{background:var(--terracotta);border-color:var(--terracotta)}
+  .cmd .copy.copied{background:var(--mustard);color:var(--ink);border-color:var(--mustard)}
+
+  .note{
+    background:var(--paper-deep);
+    border-left:3px solid var(--mustard);
+    padding:18px 22px;
+    font-family:var(--serif);
+    font-size:16px;
+    color:var(--ink-soft);
+    margin:24px 0;
+  }
+  .note b{font-family:var(--sans);font-weight:600;color:var(--terracotta);font-size:11px;letter-spacing:.2em;text-transform:uppercase;display:block;margin-bottom:6px}
+
+  /* download buttons */
+  .download{
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:14px 24px;
+    text-decoration:none;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    border:2px solid var(--ink);
+    transition:all .2s;
+    margin:6px 8px 6px 0;
+  }
+  .download:hover{background:var(--terracotta);border-color:var(--terracotta);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+  .download .arr{font-size:18px}
+  .download.ghost{background:transparent;color:var(--ink)}
+  .download.ghost:hover{background:var(--ink);color:var(--paper)}
+
+  /* keyword pill */
+  .kw{
+    display:inline-block;
+    background:var(--paper-deep);
+    border:1px solid var(--ink);
+    padding:1px 8px;
+    font-family:var(--mono);
+    font-size:13px;
+    margin:0 2px;
+  }
+
+  /* CHEAT SHEET */
+  .cheat{
+    padding:100px 48px;
+    background:var(--ink);
+    color:var(--paper);
+    border-bottom:2px solid var(--ink);
+  }
+  .cheat h2{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:clamp(56px,9vw,140px);
+    line-height:.9;
+    color:var(--mustard);
+    margin-bottom:48px;
+  }
+  .cheat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:32px;
+  }
+  .cheat-card{
+    border:1px solid rgba(242,235,221,.2);
+    padding:24px;
+    background:rgba(242,235,221,.04);
+  }
+  .cheat-card h4{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:14px;
+    border-bottom:1px solid rgba(242,235,221,.2);
+    padding-bottom:10px;
+  }
+  .cheat-card .row{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:6px;
+    padding:10px 0;
+    border-bottom:1px dotted rgba(242,235,221,.15);
+  }
+  .cheat-card .row:last-child{border:none}
+  .cheat-card code{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--mustard);
+  }
+  .cheat-card .desc{font-size:13px;color:rgba(242,235,221,.7);font-family:var(--sans)}
+
+  /* footer */
+  footer{
+    padding:80px 48px 60px;
+    text-align:center;
+  }
+  footer .seal{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:48px;
+    color:var(--terracotta);
+    margin-bottom:24px;
+  }
+  footer .colophon{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--faded);
+    line-height:2;
+  }
+
+  /* progress bar */
+  .progress{
+    position:fixed;
+    top:0;left:0;
+    height:3px;
+    background:var(--terracotta);
+    z-index:99;
+    width:0%;
+    transition:width .1s;
+  }
+
+  /* responsive */
+  @media (max-width:900px){
+    .cover,.index,.chapter,.cheat,footer{padding-left:24px;padding-right:24px}
+    .index,.chapter-body{grid-template-columns:1fr;gap:32px}
+    .chapter-head{grid-template-columns:80px 1fr;gap:20px;margin-bottom:32px}
+    .ch-num{font-size:80px}
+    .ch-aside{position:relative;top:0}
+    .cover-meta{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- ───────── COVER ───────── -->
+<header class="cover">
+  <div class="top-rule">
+    <span>
+      <span>Vol. 01</span>
+      <span>· No. 005</span>
+    </span>
+    <span>Prepared for: Griffin</span>
+    <span>
+      <span>Edition / 2026</span>
+    </span>
+  </div>
+
+  <div class="cover-title">
+    <div class="eyebrow">A field manual / written for Griffin / first-time builder edition</div>
+    <h1 class="title">Hey<br/><em>Griffin,</em><br/>let's <span class="amp">vibe.</span></h1>
+    <p class="deck">From your brand-new laptop to a deployed web app on the internet — installed, configured, and shipped. No prior coding experience required, only patience and a willingness to copy &amp; paste. Work top to bottom, take breaks, and message me if anything blows up.</p>
+  </div>
+
+  <div class="cover-meta">
+    <div><b>Stack</b>Claude · GitHub · Vercel · Supabase</div>
+    <div><b>Time</b>~90 minutes</div>
+    <div><b>Difficulty</b>Beginner-friendly</div>
+    <div><b>Cost</b>$20/mo Claude Pro · rest free tier</div>
+  </div>
+</header>
+
+<!-- ───────── INDEX ───────── -->
+<section class="index">
+  <div class="index-label">Table of<br/>Contents</div>
+  <ol>
+    <li><a href="#ch1">The Terminal</a><span class="pg">p. 04</span></li>
+    <li><a href="#ch2">The Editor</a><span class="pg">p. 08</span></li>
+    <li><a href="#ch3">Git &amp; GitHub</a><span class="pg">p. 12</span></li>
+    <li><a href="#ch4">The Runtime</a><span class="pg">p. 16</span></li>
+    <li><a href="#ch5">Claude Code</a><span class="pg">p. 20</span></li>
+    <li><a href="#ch6">Vercel</a><span class="pg">p. 24</span></li>
+    <li><a href="#ch7">Supabase</a><span class="pg">p. 28</span></li>
+    <li><a href="#ch8">Your First Vibe</a><span class="pg">p. 32</span></li>
+    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 36</span></li>
+  </ol>
+</section>
+
+<!-- ───────── CH 1 — TERMINAL ───────── -->
+<section class="chapter" id="ch1">
+  <div class="chapter-head">
+    <div class="ch-num">i.</div>
+    <div>
+      <div class="ch-meta">Chapter 01 · Foundation</div>
+      <h2 class="ch-title">The <em>Terminal</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      The terminal is where you'll spend half your time. Windows ships with an old one — we want the modern one and the modern shell that runs inside it. Five minutes here saves you a lifetime of papercuts.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 01 / A</span>Install Windows Terminal</h3>
+      <p>Windows Terminal is the modern command-line app from Microsoft. Tabs, themes, copy-paste that actually works. It's free.</p>
+      <a class="download" href="https://apps.microsoft.com/detail/9N0DX20HK701" target="_blank" rel="noopener">Microsoft Store <span class="arr">↗</span></a>
+
+      <h3><span class="step">Step 01 / B</span>Install PowerShell 7 (latest)</h3>
+      <p>The shell that came with Windows is <em>Windows PowerShell 5.1</em>. We want <strong>PowerShell 7+</strong> — faster, cross-platform, modern syntax. Open the Terminal you just installed and paste:</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Microsoft.PowerShell --source winget</div>
+      <p>Close and reopen the Terminal afterwards.</p>
+
+      <h3><span class="step">Step 01 / C</span>Make PowerShell 7 the default</h3>
+      <p>In Windows Terminal, click the <kbd>▼</kbd> arrow next to the new-tab button → <strong>Settings</strong> → under <em>Default profile</em> select <strong>PowerShell</strong> (not "Windows PowerShell" — they look identical, but the one without "Windows" is v7). Save.</p>
+
+      <div class="note"><b>Plain English</b>"Terminal" is the window. "Shell" is the language you type into it. Windows Terminal + PowerShell 7 = the modern pairing. From here on, every command in this book is pasted into this window.</div>
+
+      <h3><span class="step">Step 01 / D</span>Install winget (probably already there)</h3>
+      <p><span class="kw">winget</span> is Windows' built-in package manager — think "App Store for the command line." It comes with Windows 11. Verify it works:</p>
+      <div class="cmd"><button class="copy">Copy</button>winget --version</div>
+      <p>If you see a version number, you're set. If not, install <a class="link" href="https://apps.microsoft.com/detail/9NBLGGH4NNS1" target="_blank" rel="noopener">App Installer ↗</a> from the Microsoft Store.</p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 2 — EDITOR ───────── -->
+<section class="chapter" id="ch2">
+  <div class="chapter-head">
+    <div class="ch-num">ii.</div>
+    <div>
+      <div class="ch-meta">Chapter 02 · Workspace</div>
+      <h2 class="ch-title">The <em>Editor</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      A code editor is your canvas. We use one with built-in AI — Cursor — because it lets you describe what you want and watches you write. This is the heart of "vibe coding."
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 02 / A</span>Install Cursor</h3>
+      <p>Cursor is a fork of VS Code with native AI. Install it directly:</p>
+      <a class="download" href="https://cursor.com/download" target="_blank" rel="noopener">cursor.com/download <span class="arr">↗</span></a>
+      <p>Or via terminal:</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Anysphere.Cursor</div>
+
+      <h3><span class="step">Step 02 / B</span>(Optional) VS Code as a backup</h3>
+      <p>If you ever want the plain non-AI editor too:</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Microsoft.VisualStudioCode</div>
+
+      <h3><span class="step">Step 02 / C</span>First-launch settings</h3>
+      <p>Open Cursor. When it asks:</p>
+      <ul>
+        <li>Sign in with GitHub (we'll create that account next chapter — skip for now, come back)</li>
+        <li>Color theme: pick anything that makes you happy</li>
+        <li>Install the <strong>"code" command in PATH</strong> when prompted — this lets you type <span class="kw">cursor .</span> in any folder to open it</li>
+      </ul>
+
+      <div class="note"><b>Tip</b>Press <kbd>Ctrl + L</kbd> in Cursor to open the AI sidebar. Press <kbd>Ctrl + K</kbd> while editing to ask the AI to write or rewrite the highlighted code.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 3 — GIT & GITHUB ───────── -->
+<section class="chapter" id="ch3">
+  <div class="chapter-head">
+    <div class="ch-num">iii.</div>
+    <div>
+      <div class="ch-meta">Chapter 03 · Version Control</div>
+      <h2 class="ch-title">Git <em>&amp;</em> GitHub</h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      <strong>Git</strong> is a time machine for your code — every save is a checkpoint you can return to. <strong>GitHub</strong> is where those checkpoints live in the cloud, shared with collaborators, deployed to servers, and tied to your portfolio.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 03 / A</span>Install Git</h3>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Git.Git -e</div>
+      <p>Close and reopen Terminal afterwards. Verify:</p>
+      <div class="cmd"><button class="copy">Copy</button>git --version</div>
+
+      <h3><span class="step">Step 03 / B</span>Tell Git who you are</h3>
+      <p>Replace the name and email with your own (use the same email you'll use for GitHub):</p>
+      <div class="cmd"><button class="copy">Copy</button>git config --global user.name "Your Name"</div>
+      <div class="cmd"><button class="copy">Copy</button>git config --global user.email "you@example.com"</div>
+      <div class="cmd"><button class="copy">Copy</button>git config --global init.defaultBranch main</div>
+
+      <h3><span class="step">Step 03 / C</span>Create a GitHub account</h3>
+      <a class="download" href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup <span class="arr">↗</span></a>
+      <p>Pick a username you'll be okay with for years — it shows up in every URL. Verify your email before continuing.</p>
+
+      <h3><span class="step">Step 03 / D</span>Install GitHub CLI &amp; sign in</h3>
+      <p>The GitHub CLI (<span class="kw">gh</span>) handles all the authentication headaches for you.</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id GitHub.cli</div>
+      <p>Close and reopen Terminal. Then:</p>
+      <div class="cmd"><button class="copy">Copy</button>gh auth login</div>
+      <p>Choose: <strong>GitHub.com</strong> → <strong>HTTPS</strong> → <strong>Yes</strong> (auth Git with credentials) → <strong>Login with a web browser</strong>. Copy the one-time code, paste in the browser, done.</p>
+
+      <div class="note"><b>What just happened</b>You can now <span class="kw">git push</span> code to GitHub from any folder without ever typing a password. The CLI also lets you create repos with <span class="kw">gh repo create</span> and open PRs from the terminal.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 4 — RUNTIME ───────── -->
+<section class="chapter" id="ch4">
+  <div class="chapter-head">
+    <div class="ch-num">iv.</div>
+    <div>
+      <div class="ch-meta">Chapter 04 · Engine</div>
+      <h2 class="ch-title">The <em>Runtime</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Your code needs something to <em>run</em> it. For modern web apps that "something" is Node.js (and increasingly its faster cousin, Bun). Package managers like pnpm and bun handle the libraries your projects pull in.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 04 / A</span>Install Node.js (LTS)</h3>
+      <p>LTS = "Long Term Support," the boring stable version everyone uses in production.</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id OpenJS.NodeJS.LTS</div>
+      <p>Close and reopen Terminal. Verify:</p>
+      <div class="cmd"><button class="copy">Copy</button>node --version</div>
+      <div class="cmd"><button class="copy">Copy</button>npm --version</div>
+
+      <h3><span class="step">Step 04 / B</span>Install Bun</h3>
+      <p><strong>Bun</strong> is a faster, modern alternative to Node + npm. We'll use it for many projects. One-liner:</p>
+      <div class="cmd"><button class="copy">Copy</button>powershell -c "irm bun.sh/install.ps1 | iex"</div>
+      <p>Close and reopen Terminal. Verify:</p>
+      <div class="cmd"><button class="copy">Copy</button>bun --version</div>
+
+      <h3><span class="step">Step 04 / C</span>Install pnpm</h3>
+      <p><strong>pnpm</strong> is another package manager — disk-space-efficient, used by lots of repos. Easy way:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install -g pnpm</div>
+      <div class="cmd"><button class="copy">Copy</button>pnpm --version</div>
+
+      <div class="note"><b>Plain English</b>Think of <span class="kw">npm</span>, <span class="kw">pnpm</span>, and <span class="kw">bun</span> as three different grocery delivery services for code libraries. You'll use whichever the project you cloned uses — they're mostly interchangeable, but you can't mix them in one project.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 5 — CLAUDE CODE ───────── -->
+<section class="chapter" id="ch5">
+  <div class="chapter-head">
+    <div class="ch-num">v.</div>
+    <div>
+      <div class="ch-meta">Chapter 05 · The Co-pilot</div>
+      <h2 class="ch-title">Claude <em>Code</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Claude Code is Anthropic's AI agent that lives in your terminal. It reads your files, runs your tests, edits code, and pushes commits — all from natural-language instructions. The single biggest leverage tool in this entire stack.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 05 / A</span>Get Claude Pro</h3>
+      <p>Pro is $20/month and unlocks the high-quality models with generous usage limits. Subscribe at:</p>
+      <a class="download" href="https://claude.ai/upgrade" target="_blank" rel="noopener">claude.ai/upgrade <span class="arr">↗</span></a>
+      <p>While you're there, sign in to <a class="link" href="https://claude.ai" target="_blank" rel="noopener">claude.ai ↗</a> with the same account — that's the chat interface for non-coding work.</p>
+
+      <h3><span class="step">Step 05 / B</span>Install Claude Code</h3>
+      <div class="cmd"><button class="copy">Copy</button>npm install -g @anthropic-ai/claude-code</div>
+      <p>Verify:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude --version</div>
+
+      <h3><span class="step">Step 05 / C</span>First run &amp; sign-in</h3>
+      <p>Move into any folder (we'll create one in Chapter 8). Then:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude</div>
+      <p>It'll open a browser window — sign in with your Claude Pro account. From now on, just typing <span class="kw">claude</span> in any folder gives you an AI that knows your project.</p>
+
+      <h3><span class="step">Step 05 / D</span>The three magic prompts</h3>
+      <ul>
+        <li><strong>"What is this codebase?"</strong> — get oriented when you join an unfamiliar repo</li>
+        <li><strong>"Build me X"</strong> — describe a feature, watch it implement, review the diff</li>
+        <li><strong>"Why is this broken?"</strong> — paste the error, let it debug</li>
+      </ul>
+
+      <div class="note"><b>Etiquette</b>Always read the diff before approving a change. Claude is fast and confident — that combination occasionally produces fast, confident mistakes. Trust, but verify.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 6 — VERCEL ───────── -->
+<section class="chapter" id="ch6">
+  <div class="chapter-head">
+    <div class="ch-num">vi.</div>
+    <div>
+      <div class="ch-meta">Chapter 06 · Hosting</div>
+      <h2 class="ch-title"><em>Vercel</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Vercel takes a folder of code and turns it into a live website with a real URL — in seconds. Push to GitHub, Vercel deploys automatically. The free tier covers hobby projects forever.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 06 / A</span>Sign up for Vercel</h3>
+      <p>Use the "Continue with GitHub" option — it links the two services so deploys happen automatically when you push code.</p>
+      <a class="download" href="https://vercel.com/signup" target="_blank" rel="noopener">vercel.com/signup <span class="arr">↗</span></a>
+
+      <h3><span class="step">Step 06 / B</span>Install the Vercel CLI</h3>
+      <div class="cmd"><button class="copy">Copy</button>npm install -g vercel</div>
+      <div class="cmd"><button class="copy">Copy</button>vercel login</div>
+      <p>Choose <strong>Continue with GitHub</strong>. Browser opens, click confirm, done.</p>
+
+      <h3><span class="step">Step 06 / C</span>Deploy any folder, instantly</h3>
+      <p>Inside a project folder:</p>
+      <div class="cmd"><button class="copy">Copy</button>vercel</div>
+      <p>Answer the prompts (defaults are fine for the first run). When it's done, it gives you a public URL. That's it. You're on the internet.</p>
+
+      <div class="note"><b>The dream</b>Once a repo is "linked" to Vercel, every <span class="kw">git push</span> auto-deploys. You write code → save → push → site updates. There is no further ceremony.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 7 — SUPABASE ───────── -->
+<section class="chapter" id="ch7">
+  <div class="chapter-head">
+    <div class="ch-num">vii.</div>
+    <div>
+      <div class="ch-meta">Chapter 07 · Backend</div>
+      <h2 class="ch-title"><em>Supabase</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Supabase is the backend you'd otherwise have to build from scratch — a Postgres database, user authentication, file storage, and realtime subscriptions, all bundled with a friendly dashboard. Free tier is plenty for starting out.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 07 / A</span>Sign up</h3>
+      <p>Use "Continue with GitHub" again so everything stays linked.</p>
+      <a class="download" href="https://supabase.com/dashboard/sign-up" target="_blank" rel="noopener">supabase.com/sign-up <span class="arr">↗</span></a>
+
+      <h3><span class="step">Step 07 / B</span>Create your first project</h3>
+      <p>From the dashboard:</p>
+      <ul>
+        <li>Click <strong>New Project</strong></li>
+        <li>Pick a name and a strong database password (save it somewhere safe — you'll need it)</li>
+        <li>Choose the region closest to you</li>
+        <li>Wait ~2 minutes while it provisions</li>
+      </ul>
+
+      <h3><span class="step">Step 07 / C</span>Install the Supabase CLI</h3>
+      <p>Easiest way on Windows is via Scoop, but npm works too:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install -g supabase</div>
+      <div class="cmd"><button class="copy">Copy</button>supabase login</div>
+
+      <h3><span class="step">Step 07 / D</span>Grab your API keys</h3>
+      <p>In the Supabase dashboard for your project: <strong>Project Settings → API</strong>. You'll need:</p>
+      <ul>
+        <li><strong>Project URL</strong> — public, identifies your database</li>
+        <li><strong>anon (public) key</strong> — safe to use in frontend code</li>
+        <li><strong>service_role key</strong> — <em>never</em> commit this to git, server-side only</li>
+      </ul>
+
+      <div class="note"><b>Heads-up</b>Anything that ends in <span class="kw">_role</span> or is labeled <em>secret</em> goes in a file called <span class="kw">.env.local</span> — never in code, never in GitHub. Supabase will yell at you if you slip up. So will Claude.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 8 — FIRST VIBE ───────── -->
+<section class="chapter" id="ch8">
+  <div class="chapter-head">
+    <div class="ch-num">viii.</div>
+    <div>
+      <div class="ch-meta">Chapter 08 · Liftoff</div>
+      <h2 class="ch-title">Your <em>First</em> Vibe</h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      A 10-minute walkthrough of the entire loop: idea → code → repo → live site. Once you've done it once, every project after this is muscle memory.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 08 / A</span>Make a projects folder</h3>
+      <div class="cmd multi"><button class="copy">Copy</button>mkdir $HOME\dev
+cd $HOME\dev</div>
+
+      <h3><span class="step">Step 08 / B</span>Create a Next.js app</h3>
+      <p>Next.js is the most-used React framework — Vercel made it, so it deploys there in one click.</p>
+      <div class="cmd"><button class="copy">Copy</button>npx create-next-app@latest my-first-vibe</div>
+      <p>Accept all the defaults (TypeScript, Tailwind, App Router — yes to everything).</p>
+      <div class="cmd"><button class="copy">Copy</button>cd my-first-vibe</div>
+
+      <h3><span class="step">Step 08 / C</span>Open it in Cursor</h3>
+      <div class="cmd"><button class="copy">Copy</button>cursor .</div>
+
+      <h3><span class="step">Step 08 / D</span>Start the dev server</h3>
+      <p>Inside the Cursor terminal (<kbd>Ctrl + `</kbd> to open it):</p>
+      <div class="cmd"><button class="copy">Copy</button>npm run dev</div>
+      <p>Open <a class="link" href="http://localhost:3000" target="_blank" rel="noopener">localhost:3000 ↗</a>. Your app is live on your machine.</p>
+
+      <h3><span class="step">Step 08 / E</span>Vibe with Claude</h3>
+      <p>Open a second terminal tab and run:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude</div>
+      <p>Try: <em>"Replace the home page with a cosmic-themed landing page for an app called 'StarMail.' Use the existing Tailwind setup."</em> Watch it work. Approve the diff. Refresh the browser.</p>
+
+      <h3><span class="step">Step 08 / F</span>Push to GitHub</h3>
+      <div class="cmd multi"><button class="copy">Copy</button>git add .
+git commit -m "first vibe"
+gh repo create --source=. --public --push</div>
+
+      <h3><span class="step">Step 08 / G</span>Deploy to Vercel</h3>
+      <div class="cmd"><button class="copy">Copy</button>vercel</div>
+      <p>Hit enter through the prompts. Sixty seconds later, you have a public URL. Send it to a friend.</p>
+
+      <div class="note"><b>Welcome aboard, Griffin</b>You just shipped a website. From now on it's the same loop — code in Cursor with Claude, push to GitHub, Vercel deploys. The hard part was today. Send me the URL.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CHEAT SHEET ───────── -->
+<section class="cheat" id="cheat">
+  <h2>The <span style="color:var(--terracotta)">Cheat</span> Sheet</h2>
+
+  <div class="cheat-grid">
+
+    <div class="cheat-card">
+      <h4>Daily Loop</h4>
+      <div class="row"><code>cursor .</code><span class="desc">Open the current folder in Cursor</span></div>
+      <div class="row"><code>npm run dev</code><span class="desc">Start local server (usually localhost:3000)</span></div>
+      <div class="row"><code>claude</code><span class="desc">Launch Claude Code in this folder</span></div>
+      <div class="row"><code>Ctrl + C</code><span class="desc">Stop any running terminal command</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Git Essentials</h4>
+      <div class="row"><code>git status</code><span class="desc">What's changed since the last save?</span></div>
+      <div class="row"><code>git add .</code><span class="desc">Stage every change</span></div>
+      <div class="row"><code>git commit -m "msg"</code><span class="desc">Take a snapshot</span></div>
+      <div class="row"><code>git push</code><span class="desc">Send snapshots to GitHub</span></div>
+      <div class="row"><code>git pull</code><span class="desc">Get the latest from GitHub</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>GitHub CLI</h4>
+      <div class="row"><code>gh repo create</code><span class="desc">Create a new repo from current folder</span></div>
+      <div class="row"><code>gh repo clone user/name</code><span class="desc">Download someone else's project</span></div>
+      <div class="row"><code>gh pr create</code><span class="desc">Open a pull request</span></div>
+      <div class="row"><code>gh auth status</code><span class="desc">Am I logged in?</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Package Managers</h4>
+      <div class="row"><code>npm install</code><span class="desc">Install dependencies listed in package.json</span></div>
+      <div class="row"><code>npm install thing</code><span class="desc">Add a new library</span></div>
+      <div class="row"><code>pnpm i</code><span class="desc">Same, but with pnpm</span></div>
+      <div class="row"><code>bun install</code><span class="desc">Same, but with bun (fastest)</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Vercel</h4>
+      <div class="row"><code>vercel</code><span class="desc">Deploy a preview</span></div>
+      <div class="row"><code>vercel --prod</code><span class="desc">Deploy to production URL</span></div>
+      <div class="row"><code>vercel env pull</code><span class="desc">Sync env vars from cloud → .env.local</span></div>
+      <div class="row"><code>vercel logs</code><span class="desc">See production logs</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Supabase</h4>
+      <div class="row"><code>supabase login</code><span class="desc">Authenticate the CLI</span></div>
+      <div class="row"><code>supabase init</code><span class="desc">Set up Supabase in this project</span></div>
+      <div class="row"><code>supabase link</code><span class="desc">Connect local to cloud project</span></div>
+      <div class="row"><code>supabase db pull</code><span class="desc">Snapshot the cloud schema</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>PowerShell Survival</h4>
+      <div class="row"><code>cd folder</code><span class="desc">Move into a folder</span></div>
+      <div class="row"><code>cd ..</code><span class="desc">Go up one folder</span></div>
+      <div class="row"><code>ls</code><span class="desc">List what's here</span></div>
+      <div class="row"><code>mkdir name</code><span class="desc">Make a folder</span></div>
+      <div class="row"><code>cls</code><span class="desc">Clear the screen</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>When Stuck</h4>
+      <div class="row"><code>Ask Claude</code><span class="desc">Paste the error message verbatim</span></div>
+      <div class="row"><code>Restart the terminal</code><span class="desc">After installing anything</span></div>
+      <div class="row"><code>Restart your computer</code><span class="desc">After installing two things</span></div>
+      <div class="row"><code>rm -r node_modules</code><span class="desc">Then re-run npm install — the nuclear option</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ───────── FOOTER ───────── -->
+<footer>
+  <div class="seal">— fin —</div>
+  <div class="colophon">
+    Set in Fraunces, Instrument Serif, Geist &amp; JetBrains Mono<br/>
+    Hand-printed on a warm afternoon, 2026<br/>
+    Made with care for Griffin · &lt;3 Lucas
+  </div>
+</footer>
+
+<script>
+  // copy-to-clipboard
+  document.querySelectorAll('.cmd').forEach(block=>{
+    const btn=block.querySelector('.copy');
+    btn.addEventListener('click',async()=>{
+      const text=block.textContent.replace('Copy','').trim();
+      try{
+        await navigator.clipboard.writeText(text);
+        btn.textContent='Copied';
+        btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},1500);
+      }catch(e){
+        btn.textContent='Err';
+      }
+    });
+  });
+
+  // progress bar
+  const bar=document.getElementById('progress');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement;
+    const pct=(h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+    bar.style.width=pct+'%';
+  });
+</script>
+</body>
+</html>
