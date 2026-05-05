@@ -497,7 +497,8 @@
     <li><a href="#ch8">Secrets &amp; Config</a><span class="pg">p. 32</span></li>
     <li><a href="#ch9">Your First Vibe</a><span class="pg">p. 36</span></li>
     <li><a href="#ch10">Stripe &amp; Resend · Bonus</a><span class="pg">p. 42</span></li>
-    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 50</span></li>
+    <li><a href="#ch11">Power-Ups · Superpowers &amp; MCP</a><span class="pg">p. 50</span></li>
+    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 58</span></li>
   </ol>
 </section>
 
@@ -1036,6 +1037,77 @@ gh repo create --source=. --public --push</div>
   </div>
 </section>
 
+<!-- ───────── CH 11 — POWER-UPS ───────── -->
+<section class="chapter" id="ch11">
+  <div class="chapter-head">
+    <div class="ch-num">xi.</div>
+    <div>
+      <div class="ch-meta">Chapter 11 · Bonus / Level-up your Claude</div>
+      <h2 class="ch-title">Power-<em>Ups</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Two ways to make Claude Code dramatically more capable. <strong>Superpowers</strong> is a curated set of skills that teach Claude better workflows — planning, debugging, parallel agents, test-driven development. <strong>MCP servers</strong> connect Claude to outside services (your database, GitHub, Stripe, real-time docs) so it can do work directly instead of asking you to copy-paste.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 11 / A</span>Install Superpowers</h3>
+      <p>Superpowers is a plugin marketplace by Jesse Vincent — it bundles skills like <em>brainstorming</em>, <em>executing-plans</em>, <em>systematic-debugging</em>, <em>test-driven-development</em>, and <em>dispatching-parallel-agents</em>. Run these <strong>inside Claude Code</strong> (i.e. type <span class="kw">claude</span> in your terminal first, then paste each):</p>
+      <div class="cmd multi"><button class="copy">Copy</button>/plugin marketplace add obra/superpowers-marketplace</div>
+      <div class="cmd multi"><button class="copy">Copy</button>/plugin install superpowers@superpowers-marketplace</div>
+      <p>Restart Claude Code (<kbd>Ctrl + C</kbd> twice, then run <span class="kw">claude</span> again). Type <span class="kw">/</span> in any session to see the new <span class="kw">superpowers:*</span> skills available.</p>
+      <p>Docs: <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugin discovery ↗</a> · <a class="link" href="https://github.com/obra/superpowers-marketplace" target="_blank" rel="noopener">Marketplace repo ↗</a></p>
+
+      <h3><span class="step">Step 11 / B</span>What MCP is, in two sentences</h3>
+      <p><strong>MCP (Model Context Protocol)</strong> is a standard for plugging Claude into outside tools. Each "MCP server" is a little adapter — for GitHub, for your Supabase database, for Stripe, etc. — that lets Claude read and write to that service directly. Add servers once with <span class="kw">claude mcp add</span> at your PowerShell prompt; from then on, every Claude session can use them.</p>
+      <p>The <span class="kw">--scope user</span> flag below makes each server global (available in every project). Drop that flag for project-only.</p>
+
+      <h3><span class="step">Step 11 / C</span>Context7 — live library docs</h3>
+      <p>Pulls up-to-the-minute documentation for any library (React 19, Next.js 15, Supabase, etc.) so Claude isn't relying on its training cutoff. The single highest-leverage MCP for vibe coders.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7-mcp</div>
+      <p>Free API key (optional, raises rate limits): <a class="link" href="https://context7.com/dashboard" target="_blank" rel="noopener">context7.com/dashboard ↗</a></p>
+
+      <h3><span class="step">Step 11 / D</span>GitHub — issues, PRs, repos</h3>
+      <p>Lets Claude read and create GitHub issues, pull requests, and repositories directly. Generate a fine-grained PAT first at <a class="link" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens ↗</a> with <span class="kw">repo</span> read + write scope, then paste it where the placeholder is:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"</div>
+
+      <h3><span class="step">Step 11 / E</span>Supabase — query your database</h3>
+      <p><em>Requires Chapter 7 setup.</em> Lets Claude read your tables, propose migrations, and answer "what's in this database" questions without you opening the dashboard.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http supabase https://mcp.supabase.com/mcp</div>
+      <p>After adding, run <span class="kw">/mcp</span> inside Claude Code → select <em>supabase</em> → <em>Authenticate</em>. A browser tab opens for OAuth.</p>
+      <p>Docs: <a class="link" href="https://supabase.com/docs/guides/getting-started/mcp" target="_blank" rel="noopener">Supabase MCP guide ↗</a></p>
+
+      <h3><span class="step">Step 11 / F</span>Stripe — products, prices, payments</h3>
+      <p><em>Requires Chapter 10 setup.</em> Lets Claude create products, generate price IDs, look up customers, inspect payments, and build out your ticketing-app schema directly. Paste your test-mode <span class="kw">sk_test_…</span> key where the placeholder is:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio stripe -- npx -y @stripe/mcp --tools=all --api-key=YOUR_STRIPE_SECRET_KEY</div>
+      <p>Docs: <a class="link" href="https://docs.stripe.com/mcp" target="_blank" rel="noopener">Stripe MCP docs ↗</a></p>
+
+      <h3><span class="step">Step 11 / G</span>Playwright — browser automation</h3>
+      <p>Lets Claude open a real browser, click around your app, take screenshots, fill forms, and verify behavior. Killer for "did the change actually fix the bug" loops without you babysitting.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio playwright -- npx -y @playwright/mcp</div>
+      <p>No API key needed — runs locally.</p>
+
+      <h3><span class="step">Step 11 / H</span>Verify the fleet</h3>
+      <p>Inside Claude Code, type:</p>
+      <div class="cmd multi"><button class="copy">Copy</button>/mcp</div>
+      <p>You should see your installed servers with green checkmarks. Red? Re-paste the command and check the API key for typos.</p>
+
+      <div class="note"><b>How Claude actually uses these</b>You don't call MCP tools by name. Just describe what you want — "create a Stripe product called 'GA Ticket' for $35," "show me all rows in the events table," "open the deployed site and screenshot the home page" — and Claude picks the right MCP and uses it. Watch the tool calls scroll past; intervene if it's about to do something destructive.</div>
+
+      <h3><span class="step">Step 11 / I</span>Reference</h3>
+      <ul>
+        <li><strong>Plugins overview</strong> — <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">code.claude.com/docs/en/discover-plugins ↗</a></li>
+        <li><strong>MCP overview</strong> — <a class="link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">code.claude.com/docs/en/mcp ↗</a></li>
+        <li><strong>Context7</strong> — <a class="link" href="https://context7.com/docs/clients/claude-code" target="_blank" rel="noopener">context7.com/docs/clients/claude-code ↗</a></li>
+        <li><strong>Server directory</strong> — <a class="link" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">github.com/modelcontextprotocol/servers ↗</a></li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
 <!-- ───────── CHEAT SHEET ───────── -->
 <section class="cheat" id="cheat">
   <h2>The <span style="color:var(--terracotta)">Cheat</span> Sheet</h2>
@@ -1114,6 +1186,14 @@ gh repo create --source=. --public --push</div>
       <div class="row"><code>RESEND_API_KEY=re_...</code><span class="desc">Goes in .env.local — server-only</span></div>
       <div class="row"><code>onboarding@resend.dev</code><span class="desc">Test sender — sends only to your verified email</span></div>
       <div class="row"><code>Domains → Add Domain</code><span class="desc">Verify yours before going live</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Superpowers &amp; MCP</h4>
+      <div class="row"><code>/plugin marketplace add obra/superpowers-marketplace</code><span class="desc">Inside claude — adds the Superpowers marketplace</span></div>
+      <div class="row"><code>/plugin install superpowers@superpowers-marketplace</code><span class="desc">Inside claude — installs the skill bundle</span></div>
+      <div class="row"><code>claude mcp add --scope user ...</code><span class="desc">Add an MCP server globally (PowerShell)</span></div>
+      <div class="row"><code>/mcp</code><span class="desc">Inside claude — list installed servers + auth</span></div>
     </div>
 
     <div class="cheat-card">
