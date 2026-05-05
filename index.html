@@ -238,7 +238,7 @@
     position:relative;
   }
   /* alternating chapter accent — blue on the evens */
-  #ch2,#ch4,#ch6,#ch8,#ch10{--accent:var(--sky)}
+  #ch2,#ch4,#ch6,#ch8,#ch10,#ch12{--accent:var(--sky)}
   .chapter-head{
     display:grid;
     grid-template-columns:160px 1fr;
@@ -534,10 +534,10 @@
   </div>
 
   <div class="cover-meta">
-    <div><b>Stack</b>Claude · GitHub · Vercel · Supabase</div>
+    <div><b>Stack</b>Claude · GitHub · Vercel · Supabase · Stripe · Resend</div>
     <div><b>Time</b>~2 hours</div>
     <div><b>Difficulty</b>Beginner-friendly</div>
-    <div><b>Cost</b>$20/mo Claude Pro · rest free tier</div>
+    <div><b>Cost</b>$20/mo Claude Pro · everything else is free!</div>
   </div>
 </header>
 
@@ -546,7 +546,7 @@
   <div class="prologue-rule">A note before<br/>you begin</div>
   <div>
     <p><strong>Bookmark this page</strong> — hit <kbd>Ctrl + D</kbd> in your browser. You'll come back to it more than once, and the URL is the only place to find it.</p>
-    <p>Work top to bottom. Each chapter assumes you've done the one before. The two bonus chapters at the end (<em>Stripe &amp; Resend</em>, <em>Power-Ups</em>) are skip-for-now territory until you have a real project to ship.</p>
+    <p>Work top to bottom. Each chapter assumes you've done the one before. The last two chapters — <em>Stripe</em> and <em>Resend</em> — are bonus; come back to them when you're ready to charge for something or send email.</p>
     <p>And remember — you can always ask Claude for help <span style="font-style:italic;color:var(--sky)">;)</span></p>
   </div>
 </section>
@@ -564,9 +564,10 @@
     <li><a href="#ch7">Supabase</a><span class="pg">p. 28</span></li>
     <li><a href="#ch8">Secrets &amp; Config</a><span class="pg">p. 32</span></li>
     <li><a href="#ch9">Your First Vibe</a><span class="pg">p. 36</span></li>
-    <li><a href="#ch10">Stripe &amp; Resend · Bonus</a><span class="pg">p. 42</span></li>
-    <li><a href="#ch11">Power-Ups · Superpowers &amp; MCP</a><span class="pg">p. 50</span></li>
-    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 58</span></li>
+    <li><a href="#ch10">Power-Ups · Superpowers &amp; MCP</a><span class="pg">p. 42</span></li>
+    <li><a href="#ch11">Stripe · Bonus</a><span class="pg">p. 50</span></li>
+    <li><a href="#ch12">Resend · Bonus</a><span class="pg">p. 56</span></li>
+    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 60</span></li>
   </ol>
 </section>
 
@@ -1018,47 +1019,118 @@ gh repo create --source=. --public --push</div>
   </div>
 </section>
 
-<!-- ───────── CH 10 — STRIPE & RESEND ───────── -->
+<!-- ───────── CH 10 — POWER-UPS ───────── -->
 <section class="chapter" id="ch10">
   <div class="chapter-head">
     <div class="ch-num">x.</div>
     <div>
-      <div class="ch-meta">Chapter 10 · Bonus / When you're ready</div>
-      <h2 class="ch-title">Stripe <em>&amp;</em> Resend</h2>
+      <div class="ch-meta">Chapter 10 · Level-up your Claude</div>
+      <h2 class="ch-title">Power-<em>Ups</em></h2>
     </div>
   </div>
   <div class="chapter-body">
     <aside class="ch-aside">
       <span class="why">Why this matters</span>
-      For your ticketing-app idea, this is the spine. <strong>Stripe</strong> turns a customer's $35 into a payment in your account. <strong>Resend</strong> sends them their ticket. Together they handle "money in, ticket out." <em>Skip this chapter for your first throwaway project</em> — come back when you're ready to charge for something real.
+      Two ways to make Claude Code dramatically more capable. <strong>Superpowers</strong> is a curated set of skills that teach Claude better workflows — planning, debugging, parallel agents, test-driven development. <strong>MCP servers</strong> connect Claude to outside services (your database, GitHub, real-time docs, your browser) so it can do work directly instead of asking you to copy-paste.
     </aside>
     <div class="ch-content">
 
-      <h3><span class="step">Step 10 / A</span>Sign up for Stripe</h3>
+      <h3><span class="step">Step 10 / A</span>Install Superpowers</h3>
+      <p>Superpowers is a plugin marketplace by Jesse Vincent — it bundles skills like <em>brainstorming</em>, <em>executing-plans</em>, <em>systematic-debugging</em>, <em>test-driven-development</em>, and <em>dispatching-parallel-agents</em>. Run these <strong>inside Claude Code</strong> (i.e. type <span class="kw">claude</span> in your terminal first, then paste each):</p>
+      <div class="cmd multi"><button class="copy">Copy</button>/plugin marketplace add obra/superpowers-marketplace</div>
+      <div class="cmd multi"><button class="copy">Copy</button>/plugin install superpowers@superpowers-marketplace</div>
+      <p>Restart Claude Code (<kbd>Ctrl + C</kbd> twice, then run <span class="kw">claude</span> again). Type <span class="kw">/</span> in any session to see the new <span class="kw">superpowers:*</span> skills available.</p>
+      <p>Docs: <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugin discovery ↗</a> · <a class="link" href="https://github.com/obra/superpowers-marketplace" target="_blank" rel="noopener">Marketplace repo ↗</a></p>
+
+      <h3><span class="step">Step 10 / B</span>What MCP is, in two sentences</h3>
+      <p><strong>MCP (Model Context Protocol)</strong> is a standard for plugging Claude into outside tools. Each "MCP server" is a little adapter — for GitHub, for your Supabase database, for Stripe, etc. — that lets Claude read and write to that service directly. Add servers once with <span class="kw">claude mcp add</span> at your PowerShell prompt; from then on, every Claude session can use them.</p>
+      <p>The <span class="kw">--scope user</span> flag below makes each server global (available in every project). Drop that flag for project-only.</p>
+
+      <h3><span class="step">Step 10 / C</span>Context7 — live library docs</h3>
+      <p>Pulls up-to-the-minute documentation for any library (React 19, Next.js 15, Supabase, etc.) so Claude isn't relying on its training cutoff. The single highest-leverage MCP for vibe coders.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7-mcp</div>
+      <p>Free API key (optional, raises rate limits): <a class="link" href="https://context7.com/dashboard" target="_blank" rel="noopener">context7.com/dashboard ↗</a></p>
+
+      <h3><span class="step">Step 10 / D</span>GitHub — issues, PRs, repos</h3>
+      <p>Lets Claude read and create GitHub issues, pull requests, and repositories directly. Generate a <strong>fine-grained personal access token (PAT)</strong> — basically a password that GitHub uses to identify you — at <a class="link" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens ↗</a> with <span class="kw">repo</span> read + write scope, then paste it where the placeholder is:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"</div>
+
+      <h3><span class="step">Step 10 / E</span>Supabase — query your database</h3>
+      <p><em>Requires Chapter 7 setup.</em> Lets Claude read your tables, propose migrations, and answer "what's in this database" questions without you opening the dashboard.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http supabase https://mcp.supabase.com/mcp</div>
+      <p>After adding, run <span class="kw">/mcp</span> inside Claude Code → select <em>supabase</em> → <em>Authenticate</em>. A browser tab opens for OAuth.</p>
+      <p>Docs: <a class="link" href="https://supabase.com/docs/guides/getting-started/mcp" target="_blank" rel="noopener">Supabase MCP guide ↗</a></p>
+
+      <h3><span class="step">Step 10 / F</span>Stripe — products, prices, payments</h3>
+      <p><em>Requires the bonus Chapter 11 (Stripe) setup — come back here once you've done it.</em> Lets Claude create products, generate price IDs, look up customers, inspect payments, and build out your ticketing-app schema directly. Paste your test-mode <span class="kw">sk_test_…</span> key where the placeholder is:</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio stripe -- npx -y @stripe/mcp --tools=all --api-key=YOUR_STRIPE_SECRET_KEY</div>
+      <p>Docs: <a class="link" href="https://docs.stripe.com/mcp" target="_blank" rel="noopener">Stripe MCP docs ↗</a></p>
+
+      <h3><span class="step">Step 10 / G</span>Playwright — browser automation</h3>
+      <p>Lets Claude open a real browser, click around your app, take screenshots, fill forms, and verify behavior. Killer for "did the change actually fix the bug" loops without you babysitting.</p>
+      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio playwright -- npx -y @playwright/mcp</div>
+      <p>No API key needed — runs locally.</p>
+
+      <h3><span class="step">Step 10 / H</span>Verify the fleet</h3>
+      <p>Inside Claude Code, type:</p>
+      <div class="cmd multi"><button class="copy">Copy</button>/mcp</div>
+      <p>You should see your installed servers with green checkmarks. Red? Re-paste the command and check the API key for typos.</p>
+
+      <div class="note"><b>How Claude actually uses these</b>You don't call MCP tools by name. Just describe what you want — "create a Stripe product called 'GA Ticket' for $35," "show me all rows in the events table," "open the deployed site and screenshot the home page" — and Claude picks the right MCP and uses it. Watch the tool calls scroll past; intervene if it's about to do something destructive.</div>
+
+      <h3><span class="step">Step 10 / I</span>Reference</h3>
+      <ul>
+        <li><strong>Plugins overview</strong> — <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">code.claude.com/docs/en/discover-plugins ↗</a></li>
+        <li><strong>MCP overview</strong> — <a class="link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">code.claude.com/docs/en/mcp ↗</a></li>
+        <li><strong>Context7</strong> — <a class="link" href="https://context7.com/docs/clients/claude-code" target="_blank" rel="noopener">context7.com/docs/clients/claude-code ↗</a></li>
+        <li><strong>Server directory</strong> — <a class="link" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">github.com/modelcontextprotocol/servers ↗</a></li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 11 — STRIPE ───────── -->
+<section class="chapter" id="ch11">
+  <div class="chapter-head">
+    <div class="ch-num">xi.</div>
+    <div>
+      <div class="ch-meta">Chapter 11 · Bonus / When you're ready</div>
+      <h2 class="ch-title"><em>Stripe</em></h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Stripe is how the internet takes money. For your ticketing-app idea, it's how a customer's $35 turns into a real payment in your account. <em>Skip this chapter on your first throwaway project</em> — come back when you're ready to charge for something real. Pair it with Chapter 12 (Resend) to actually send the customer their ticket once payment lands.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 11 / A</span>Sign up for Stripe</h3>
       <a class="download" href="https://dashboard.stripe.com/register" target="_blank" rel="noopener">Stripe sign-up <span class="arr">↗</span></a>
       <p>You start in <strong>Test Mode</strong> by default — identical to live mode except no card actually charges and no money moves. Stay there until launch.</p>
 
-      <h3><span class="step">Step 10 / B</span>Install the Stripe CLI</h3>
+      <h3><span class="step">Step 11 / B</span>Install the Stripe CLI</h3>
       <div class="cmd"><button class="copy">Copy</button>winget install --id Stripe.StripeCLI</div>
       <div class="cmd"><button class="copy">Copy</button>stripe login</div>
 
-      <h3><span class="step">Step 10 / C</span>Stripe API keys</h3>
+      <h3><span class="step">Step 11 / C</span>Stripe API keys</h3>
       <p>Dashboard → <em>Developers → API keys</em>. You'll see two:</p>
       <ul>
         <li><span class="kw">pk_test_…</span> — <strong>publishable.</strong> Safe in browser code. Use as <span class="kw">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</span>.</li>
         <li><span class="kw">sk_test_…</span> — <strong>secret.</strong> Server-only. Use as <span class="kw">STRIPE_SECRET_KEY</span> in <span class="kw">.env.local</span>.</li>
       </ul>
 
-      <h3><span class="step">Step 10 / D</span>Install Stripe in your project</h3>
+      <h3><span class="step">Step 11 / D</span>Install Stripe in your project</h3>
       <div class="cmd"><button class="copy">Copy</button>npm install stripe @stripe/stripe-js</div>
 
-      <h3><span class="step">Step 10 / E</span>Webhooks (the part everyone forgets)</h3>
+      <h3><span class="step">Step 11 / E</span>Webhooks (the part everyone forgets)</h3>
       <p>When a payment finishes, Stripe doesn't tell your customer's browser — that could be tampered with. It sends a <em>webhook</em> directly to your server. That's the moment your code mints the ticket and emails it.</p>
       <p>To test webhooks locally, run this in a separate terminal tab while your dev server is running:</p>
       <div class="cmd"><button class="copy">Copy</button>stripe listen --forward-to localhost:3000/api/webhook</div>
       <p>It prints a <span class="kw">whsec_…</span> value — that's your <span class="kw">STRIPE_WEBHOOK_SECRET</span> for local dev.</p>
 
-      <h3><span class="step">Step 10 / F</span>Test cards</h3>
+      <h3><span class="step">Step 11 / F</span>Test cards</h3>
       <p>In test mode, real cards don't work — and these don't actually charge:</p>
       <ul>
         <li><span class="kw">4242 4242 4242 4242</span> — succeeds</li>
@@ -1067,110 +1139,67 @@ gh repo create --source=. --public --push</div>
         <li>Any future expiry date, any 3-digit CVC, any ZIP</li>
       </ul>
 
-      <h3><span class="step">Step 10 / G</span>Sign up for Resend</h3>
-      <p>Resend is a developer-friendly email API — fast, cheap, with a beautiful dashboard. Free tier: <strong>3,000 emails/month, 100/day.</strong> More than enough to start a ticketing app.</p>
-      <a class="download" href="https://resend.com/signup" target="_blank" rel="noopener">resend.com/signup <span class="arr">↗</span></a>
-
-      <h3><span class="step">Step 10 / H</span>Resend API key &amp; install</h3>
-      <p>Dashboard → <em>API Keys → Create API Key</em>. Copy the <span class="kw">re_…</span> value into <span class="kw">.env.local</span> as <span class="kw">RESEND_API_KEY</span>. Then in the project:</p>
-      <div class="cmd"><button class="copy">Copy</button>npm install resend</div>
-      <p>Optional but recommended — write your emails as React components:</p>
-      <div class="cmd"><button class="copy">Copy</button>npm install @react-email/components</div>
-
-      <h3><span class="step">Step 10 / I</span>Verify a sending domain</h3>
-      <p>For real production sending, Resend Dashboard → <em>Domains → Add Domain</em>. They give you DNS records to add wherever you bought the domain (or via Vercel's domains panel). Until verified, use Resend's <span class="kw">onboarding@resend.dev</span> sender — it works for testing but only sends to your own verified email.</p>
-
-      <h3><span class="step">Step 10 / J</span>The ticketing flow, stitched</h3>
-      <p>For Griffin's ticketing app, here's the full loop:</p>
+      <h3><span class="step">Step 11 / G</span>Going live</h3>
+      <p>When you're ready to take real money:</p>
       <ul>
-        <li>Customer clicks "Buy Ticket" → redirected to <strong>Stripe Checkout</strong> (Stripe-hosted page, easiest path)</li>
-        <li>Payment succeeds → Stripe sends a <span class="kw">checkout.session.completed</span> webhook to <span class="kw">/api/webhook</span></li>
-        <li>Your code: creates a row in Supabase (event ID, buyer email, ticket ID, QR token), generates a QR code, sends an email via Resend with the QR linked or attached</li>
-        <li>Returns 200 to Stripe so it doesn't retry</li>
-        <li>At the door: scanner hits a <span class="kw">/api/verify-ticket</span> endpoint with the QR token, your code marks it used, denies duplicates</li>
-      </ul>
-      <p>Once you've got keys in <span class="kw">.env.local</span>, ask Claude to scaffold this whole flow. It's ~200 lines of code you don't have to write.</p>
-
-      <h3><span class="step">Step 10 / K</span>Going live</h3>
-      <ul>
-        <li><strong>Stripe</strong> — toggle to Live Mode (top right of dashboard) → grab <span class="kw">pk_live_…</span> and <span class="kw">sk_live_…</span> → set as production-only env vars on Vercel. Don't put live keys in <span class="kw">.env.local</span>; keep your laptop in test mode forever.</li>
-        <li><strong>Resend</strong> — verify your domain, switch the sender from <span class="kw">onboarding@resend.dev</span> to <span class="kw">tickets@yourdomain.com</span>.</li>
+        <li>Toggle to <strong>Live Mode</strong> (top right of dashboard) → grab <span class="kw">pk_live_…</span> and <span class="kw">sk_live_…</span> → set as production-only env vars on Vercel. Don't put live keys in <span class="kw">.env.local</span>; keep your laptop in test mode forever.</li>
         <li><strong>Stripe Tax</strong> — toggle on in dashboard for automatic sales tax / VAT per buyer location.</li>
         <li><strong>Stripe Connect</strong> — when you onboard third-party event organizers and split each ticket sale, this handles payouts and 1099s. Build it on day 100, not day one.</li>
       </ul>
 
-      <div class="note"><b>The big picture</b>Money flows in through Stripe, ticket flows out through Resend, record-of-truth lives in Supabase. That's a real product — same architecture as half the SaaS you've ever paid for.</div>
+      <div class="note"><b>What's next</b>You've got money flowing in. Now head to Chapter 12 (Resend) so you can actually send your customer their ticket — that's where the full "money in → ticket out" loop comes together.</div>
 
     </div>
   </div>
 </section>
 
-<!-- ───────── CH 11 — POWER-UPS ───────── -->
-<section class="chapter" id="ch11">
+<!-- ───────── CH 12 — RESEND ───────── -->
+<section class="chapter" id="ch12">
   <div class="chapter-head">
-    <div class="ch-num">xi.</div>
+    <div class="ch-num">xii.</div>
     <div>
-      <div class="ch-meta">Chapter 11 · Bonus / Level-up your Claude</div>
-      <h2 class="ch-title">Power-<em>Ups</em></h2>
+      <div class="ch-meta">Chapter 12 · Bonus / When you're ready</div>
+      <h2 class="ch-title"><em>Resend</em></h2>
     </div>
   </div>
   <div class="chapter-body">
     <aside class="ch-aside">
       <span class="why">Why this matters</span>
-      Two ways to make Claude Code dramatically more capable. <strong>Superpowers</strong> is a curated set of skills that teach Claude better workflows — planning, debugging, parallel agents, test-driven development. <strong>MCP servers</strong> connect Claude to outside services (your database, GitHub, Stripe, real-time docs) so it can do work directly instead of asking you to copy-paste.
+      Resend is how the internet sends transactional email — receipts, ticket confirmations, password resets, magic links. Fast, cheap, and built for developers. The other half of "money in, ticket out" — pair this with Chapter 11 (Stripe) when you're ready to ship a paid product.
     </aside>
     <div class="ch-content">
 
-      <h3><span class="step">Step 11 / A</span>Install Superpowers</h3>
-      <p>Superpowers is a plugin marketplace by Jesse Vincent — it bundles skills like <em>brainstorming</em>, <em>executing-plans</em>, <em>systematic-debugging</em>, <em>test-driven-development</em>, and <em>dispatching-parallel-agents</em>. Run these <strong>inside Claude Code</strong> (i.e. type <span class="kw">claude</span> in your terminal first, then paste each):</p>
-      <div class="cmd multi"><button class="copy">Copy</button>/plugin marketplace add obra/superpowers-marketplace</div>
-      <div class="cmd multi"><button class="copy">Copy</button>/plugin install superpowers@superpowers-marketplace</div>
-      <p>Restart Claude Code (<kbd>Ctrl + C</kbd> twice, then run <span class="kw">claude</span> again). Type <span class="kw">/</span> in any session to see the new <span class="kw">superpowers:*</span> skills available.</p>
-      <p>Docs: <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">Plugin discovery ↗</a> · <a class="link" href="https://github.com/obra/superpowers-marketplace" target="_blank" rel="noopener">Marketplace repo ↗</a></p>
+      <h3><span class="step">Step 12 / A</span>Sign up for Resend</h3>
+      <p>Free tier: <strong>3,000 emails/month, 100/day.</strong> More than enough to start a ticketing app.</p>
+      <a class="download" href="https://resend.com/signup" target="_blank" rel="noopener">resend.com/signup <span class="arr">↗</span></a>
 
-      <h3><span class="step">Step 11 / B</span>What MCP is, in two sentences</h3>
-      <p><strong>MCP (Model Context Protocol)</strong> is a standard for plugging Claude into outside tools. Each "MCP server" is a little adapter — for GitHub, for your Supabase database, for Stripe, etc. — that lets Claude read and write to that service directly. Add servers once with <span class="kw">claude mcp add</span> at your PowerShell prompt; from then on, every Claude session can use them.</p>
-      <p>The <span class="kw">--scope user</span> flag below makes each server global (available in every project). Drop that flag for project-only.</p>
+      <h3><span class="step">Step 12 / B</span>API key &amp; install</h3>
+      <p>Dashboard → <em>API Keys → Create API Key</em>. Copy the <span class="kw">re_…</span> value into <span class="kw">.env.local</span> as <span class="kw">RESEND_API_KEY</span>. Then in the project:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install resend</div>
 
-      <h3><span class="step">Step 11 / C</span>Context7 — live library docs</h3>
-      <p>Pulls up-to-the-minute documentation for any library (React 19, Next.js 15, Supabase, etc.) so Claude isn't relying on its training cutoff. The single highest-leverage MCP for vibe coders.</p>
-      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio context7 -- npx -y @upstash/context7-mcp</div>
-      <p>Free API key (optional, raises rate limits): <a class="link" href="https://context7.com/dashboard" target="_blank" rel="noopener">context7.com/dashboard ↗</a></p>
+      <h3><span class="step">Step 12 / C</span>(Optional) React Email</h3>
+      <p>If you want to write your emails as React components instead of raw HTML strings:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install @react-email/components</div>
+      <p>Pairs natively with Resend — pass a React component, get a beautifully-rendered email out the other side.</p>
 
-      <h3><span class="step">Step 11 / D</span>GitHub — issues, PRs, repos</h3>
-      <p>Lets Claude read and create GitHub issues, pull requests, and repositories directly. Generate a <strong>fine-grained personal access token (PAT)</strong> — basically a password that GitHub uses to identify you — at <a class="link" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens ↗</a> with <span class="kw">repo</span> read + write scope, then paste it where the placeholder is:</p>
-      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"</div>
+      <h3><span class="step">Step 12 / D</span>Verify a sending domain</h3>
+      <p>For real production sending: Resend Dashboard → <em>Domains → Add Domain</em>. They give you DNS records to add wherever you bought the domain (or via Vercel's domains panel). Until verified, use Resend's <span class="kw">onboarding@resend.dev</span> sender — it works for testing but only sends to your own verified email.</p>
 
-      <h3><span class="step">Step 11 / E</span>Supabase — query your database</h3>
-      <p><em>Requires Chapter 7 setup.</em> Lets Claude read your tables, propose migrations, and answer "what's in this database" questions without you opening the dashboard.</p>
-      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http supabase https://mcp.supabase.com/mcp</div>
-      <p>After adding, run <span class="kw">/mcp</span> inside Claude Code → select <em>supabase</em> → <em>Authenticate</em>. A browser tab opens for OAuth.</p>
-      <p>Docs: <a class="link" href="https://supabase.com/docs/guides/getting-started/mcp" target="_blank" rel="noopener">Supabase MCP guide ↗</a></p>
-
-      <h3><span class="step">Step 11 / F</span>Stripe — products, prices, payments</h3>
-      <p><em>Requires Chapter 10 setup.</em> Lets Claude create products, generate price IDs, look up customers, inspect payments, and build out your ticketing-app schema directly. Paste your test-mode <span class="kw">sk_test_…</span> key where the placeholder is:</p>
-      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio stripe -- npx -y @stripe/mcp --tools=all --api-key=YOUR_STRIPE_SECRET_KEY</div>
-      <p>Docs: <a class="link" href="https://docs.stripe.com/mcp" target="_blank" rel="noopener">Stripe MCP docs ↗</a></p>
-
-      <h3><span class="step">Step 11 / G</span>Playwright — browser automation</h3>
-      <p>Lets Claude open a real browser, click around your app, take screenshots, fill forms, and verify behavior. Killer for "did the change actually fix the bug" loops without you babysitting.</p>
-      <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport stdio playwright -- npx -y @playwright/mcp</div>
-      <p>No API key needed — runs locally.</p>
-
-      <h3><span class="step">Step 11 / H</span>Verify the fleet</h3>
-      <p>Inside Claude Code, type:</p>
-      <div class="cmd multi"><button class="copy">Copy</button>/mcp</div>
-      <p>You should see your installed servers with green checkmarks. Red? Re-paste the command and check the API key for typos.</p>
-
-      <div class="note"><b>How Claude actually uses these</b>You don't call MCP tools by name. Just describe what you want — "create a Stripe product called 'GA Ticket' for $35," "show me all rows in the events table," "open the deployed site and screenshot the home page" — and Claude picks the right MCP and uses it. Watch the tool calls scroll past; intervene if it's about to do something destructive.</div>
-
-      <h3><span class="step">Step 11 / I</span>Reference</h3>
+      <h3><span class="step">Step 12 / E</span>The ticketing flow, stitched together</h3>
+      <p>For your ticketing app, here's the full loop combining Stripe + Resend + Supabase:</p>
       <ul>
-        <li><strong>Plugins overview</strong> — <a class="link" href="https://code.claude.com/docs/en/discover-plugins" target="_blank" rel="noopener">code.claude.com/docs/en/discover-plugins ↗</a></li>
-        <li><strong>MCP overview</strong> — <a class="link" href="https://code.claude.com/docs/en/mcp" target="_blank" rel="noopener">code.claude.com/docs/en/mcp ↗</a></li>
-        <li><strong>Context7</strong> — <a class="link" href="https://context7.com/docs/clients/claude-code" target="_blank" rel="noopener">context7.com/docs/clients/claude-code ↗</a></li>
-        <li><strong>Server directory</strong> — <a class="link" href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener">github.com/modelcontextprotocol/servers ↗</a></li>
+        <li>Customer clicks "Buy Ticket" → redirected to <strong>Stripe Checkout</strong> (Stripe-hosted page, easiest path)</li>
+        <li>Payment succeeds → Stripe sends a <span class="kw">checkout.session.completed</span> webhook to <span class="kw">/api/webhook</span></li>
+        <li>Your code: creates a row in Supabase (event ID, buyer email, ticket ID, QR token), generates a QR code, sends an email via Resend with the QR linked or attached</li>
+        <li>Returns 200 to Stripe so it doesn't retry</li>
+        <li>At the door: scanner hits a <span class="kw">/api/verify-ticket</span> endpoint with the QR token; your code marks it used, denies duplicates</li>
       </ul>
+      <p>Once you've got keys for all three services in <span class="kw">.env.local</span>, ask Claude to scaffold the whole flow. It's about 200 lines of code you don't have to write.</p>
+
+      <h3><span class="step">Step 12 / F</span>Going live</h3>
+      <p>Verify your domain (Step D), then switch the sender from <span class="kw">onboarding@resend.dev</span> to <span class="kw">tickets@yourdomain.com</span>. That's it.</p>
+
+      <div class="note"><b>The big picture</b>Money flows in through Stripe, ticket flows out through Resend, record-of-truth lives in Supabase. That's a real product — same architecture as half the SaaS you've ever paid for.</div>
 
     </div>
   </div>
