@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Vibe Coder's Handbook · For Griffin</title>
+<title>Claude Code Handbook</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta name="theme-color" content="#F2EBDD" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -140,6 +142,46 @@
     text-transform:uppercase;
   }
   .cover-meta b{display:block;color:var(--faded);font-weight:500;margin-bottom:4px}
+
+  /* ───────── PROLOGUE ───────── */
+  .prologue{
+    padding:64px 48px;
+    border-bottom:2px solid var(--ink);
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:80px;
+    align-items:start;
+  }
+  .prologue-rule{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    position:sticky;
+    top:24px;
+  }
+  .prologue p{
+    font-family:var(--serif);
+    font-size:clamp(20px,2.2vw,26px);
+    line-height:1.4;
+    color:var(--ink-soft);
+    font-variation-settings:"opsz" 24,"SOFT" 50;
+  }
+  .prologue p + p{margin-top:18px}
+  .prologue strong{color:var(--ink);font-weight:500}
+
+  kbd{
+    font-family:var(--mono);
+    background:var(--paper-deep);
+    border:1px solid var(--ink);
+    padding:1px 7px;
+    font-size:.78em;
+    border-radius:3px;
+    box-shadow:1px 1px 0 var(--ink);
+    margin:0 1px;
+    white-space:nowrap;
+  }
 
   /* ───────── INDEX ───────── */
   .index{
@@ -466,11 +508,11 @@
 
   /* responsive */
   @media (max-width:900px){
-    .cover,.index,.chapter,.cheat,footer{padding-left:24px;padding-right:24px}
-    .index,.chapter-body{grid-template-columns:1fr;gap:32px}
+    .cover,.index,.chapter,.cheat,footer,.prologue{padding-left:24px;padding-right:24px}
+    .index,.chapter-body,.prologue{grid-template-columns:1fr;gap:32px}
     .chapter-head{grid-template-columns:80px 1fr;gap:20px;margin-bottom:32px}
     .ch-num{font-size:80px}
-    .ch-aside{position:relative;top:0}
+    .ch-aside,.prologue-rule{position:relative;top:0}
     .cover-meta{grid-template-columns:repeat(2,1fr)}
   }
 </style>
@@ -498,6 +540,16 @@
     <div><b>Cost</b>$20/mo Claude Pro · rest free tier</div>
   </div>
 </header>
+
+<!-- ───────── PROLOGUE ───────── -->
+<section class="prologue">
+  <div class="prologue-rule">A note before<br/>you begin</div>
+  <div>
+    <p><strong>Bookmark this page</strong> — hit <kbd>Ctrl + D</kbd> in your browser. You'll come back to it more than once, and the URL is the only place to find it.</p>
+    <p>Work top to bottom. Each chapter assumes you've done the one before. The two bonus chapters at the end (<em>Stripe &amp; Resend</em>, <em>Power-Ups</em>) are skip-for-now territory until you have a real project to ship.</p>
+    <p>If you get stuck for more than a few minutes, message me on Discord. That's literally what I'm here for.</p>
+  </div>
+</section>
 
 <!-- ───────── INDEX ───────── -->
 <section class="index">
