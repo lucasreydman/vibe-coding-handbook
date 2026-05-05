@@ -294,7 +294,7 @@
     padding-bottom:2px;
     transition:background-size .25s, color .25s;
   }
-  .link:hover{color:var(--terracotta);background-size:100% 100%;color:var(--paper)}
+  .link:hover{background-size:100% 100%;color:var(--paper)}
 
   /* terminal command block */
   .cmd{
@@ -1086,7 +1086,7 @@ gh repo create --source=. --public --push</div>
       <p>Free API key (optional, raises rate limits): <a class="link" href="https://context7.com/dashboard" target="_blank" rel="noopener">context7.com/dashboard ↗</a></p>
 
       <h3><span class="step">Step 11 / D</span>GitHub — issues, PRs, repos</h3>
-      <p>Lets Claude read and create GitHub issues, pull requests, and repositories directly. Generate a fine-grained PAT first at <a class="link" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens ↗</a> with <span class="kw">repo</span> read + write scope, then paste it where the placeholder is:</p>
+      <p>Lets Claude read and create GitHub issues, pull requests, and repositories directly. Generate a <strong>fine-grained personal access token (PAT)</strong> — basically a password that GitHub uses to identify you — at <a class="link" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens ↗</a> with <span class="kw">repo</span> read + write scope, then paste it where the placeholder is:</p>
       <div class="cmd"><button class="copy">Copy</button>claude mcp add --scope user --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer YOUR_GITHUB_PAT"</div>
 
       <h3><span class="step">Step 11 / E</span>Supabase — query your database</h3>
@@ -1236,7 +1236,7 @@ gh repo create --source=. --public --push</div>
       <div class="row"><code>Ask Claude</code><span class="desc">Paste the error message verbatim</span></div>
       <div class="row"><code>Restart the terminal</code><span class="desc">After installing anything</span></div>
       <div class="row"><code>Restart your computer</code><span class="desc">After installing two things</span></div>
-      <div class="row"><code>rm -r node_modules</code><span class="desc">Then re-run npm install — the nuclear option</span></div>
+      <div class="row"><code>Remove-Item -Recurse -Force node_modules</code><span class="desc">Then re-run npm install — the nuclear option (PowerShell)</span></div>
     </div>
 
   </div>
@@ -1253,11 +1253,13 @@ gh repo create --source=. --public --push</div>
 </footer>
 
 <script>
-  // copy-to-clipboard
+  // copy-to-clipboard — clone the block, strip the button, read the rest
   document.querySelectorAll('.cmd').forEach(block=>{
     const btn=block.querySelector('.copy');
     btn.addEventListener('click',async()=>{
-      const text=block.textContent.replace('Copy','').trim();
+      const clone=block.cloneNode(true);
+      clone.querySelector('.copy')?.remove();
+      const text=clone.textContent.trim();
       try{
         await navigator.clipboard.writeText(text);
         btn.textContent='Copied';
