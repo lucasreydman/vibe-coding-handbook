@@ -488,8 +488,8 @@
   <div class="index-label">Table of<br/>Contents</div>
   <ol>
     <li><a href="#ch1">The Terminal</a><span class="pg">p. 04</span></li>
-    <li><a href="#ch2">The Editor</a><span class="pg">p. 08</span></li>
-    <li><a href="#ch3">Git &amp; GitHub</a><span class="pg">p. 12</span></li>
+    <li><a href="#ch2">Git &amp; GitHub</a><span class="pg">p. 08</span></li>
+    <li><a href="#ch3">The Editor</a><span class="pg">p. 12</span></li>
     <li><a href="#ch4">The Runtime</a><span class="pg">p. 16</span></li>
     <li><a href="#ch5">Claude Code</a><span class="pg">p. 20</span></li>
     <li><a href="#ch6">Vercel</a><span class="pg">p. 24</span></li>
@@ -540,12 +540,56 @@
   </div>
 </section>
 
-<!-- ───────── CH 2 — EDITOR ───────── -->
+<!-- ───────── CH 2 — GIT & GITHUB ───────── -->
 <section class="chapter" id="ch2">
   <div class="chapter-head">
     <div class="ch-num">ii.</div>
     <div>
-      <div class="ch-meta">Chapter 02 · Workspace</div>
+      <div class="ch-meta">Chapter 02 · Version Control &amp; Identity</div>
+      <h2 class="ch-title">Git <em>&amp;</em> GitHub</h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      <strong>Git</strong> is a time machine for your code — every save is a checkpoint you can return to. <strong>GitHub</strong> is where those checkpoints live in the cloud. We set this up first because the rest of the stack — VS Code, Vercel, Supabase, Copilot — all let you "Sign in with GitHub." Make this account once and reuse it everywhere.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 02 / A</span>Install Git</h3>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Git.Git -e</div>
+      <p>Close and reopen Terminal afterwards. Verify:</p>
+      <div class="cmd"><button class="copy">Copy</button>git --version</div>
+
+      <h3><span class="step">Step 02 / B</span>Tell Git who you are</h3>
+      <p>Replace the name and email with your own (use the same email you'll use for GitHub):</p>
+      <div class="cmd"><button class="copy">Copy</button>git config --global user.name "Your Name"</div>
+      <div class="cmd"><button class="copy">Copy</button>git config --global user.email "you@example.com"</div>
+      <div class="cmd"><button class="copy">Copy</button>git config --global init.defaultBranch main</div>
+
+      <h3><span class="step">Step 02 / C</span>Create a GitHub account</h3>
+      <a class="download" href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup <span class="arr">↗</span></a>
+      <p>Pick a username you'll be okay with for years — it shows up in every URL. Verify your email before continuing.</p>
+
+      <h3><span class="step">Step 02 / D</span>Install GitHub CLI &amp; sign in</h3>
+      <p>The GitHub CLI (<span class="kw">gh</span>) handles all the authentication headaches for you.</p>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id GitHub.cli</div>
+      <p>Close and reopen Terminal. Then:</p>
+      <div class="cmd"><button class="copy">Copy</button>gh auth login</div>
+      <p>Choose: <strong>GitHub.com</strong> → <strong>HTTPS</strong> → <strong>Yes</strong> (auth Git with credentials) → <strong>Login with a web browser</strong>. Copy the one-time code, paste in the browser, done.</p>
+
+      <div class="note"><b>What just happened</b>You can now <span class="kw">git push</span> code to GitHub without ever typing a password. The CLI also creates repos (<span class="kw">gh repo create</span>) and opens PRs from the terminal. Hold onto this account — VS Code, Vercel, and Supabase all let you sign in with it in the next few chapters.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 3 — EDITOR ───────── -->
+<section class="chapter" id="ch3">
+  <div class="chapter-head">
+    <div class="ch-num">iii.</div>
+    <div>
+      <div class="ch-meta">Chapter 03 · Workspace</div>
       <h2 class="ch-title">The <em>Editor</em></h2>
     </div>
   </div>
@@ -556,47 +600,39 @@
     </aside>
     <div class="ch-content">
 
-      <h3><span class="step">Step 02 / A</span>Install VS Code</h3>
+      <h3><span class="step">Step 03 / A</span>Install VS Code</h3>
       <a class="download" href="https://code.visualstudio.com/Download" target="_blank" rel="noopener">code.visualstudio.com <span class="arr">↗</span></a>
       <p>Or via terminal:</p>
       <div class="cmd"><button class="copy">Copy</button>winget install --id Microsoft.VisualStudioCode</div>
 
-      <h3><span class="step">Step 02 / B</span>First-launch settings</h3>
+      <h3><span class="step">Step 03 / B</span>First-launch settings</h3>
       <ul>
-        <li>Sign in with GitHub when prompted (skip if you haven't created an account yet — Chapter 3)</li>
+        <li><strong>Sign in with GitHub</strong> when prompted — use the account you set up in Chapter 2. This syncs your settings across devices and is what unlocks Copilot's free tier in the next step.</li>
         <li>Pick a color theme that doesn't fatigue your eyes</li>
         <li>When asked, <strong>install the "code" command in PATH</strong> — that's what lets you type <span class="kw">code .</span> in any folder to open it</li>
       </ul>
 
-      <h3><span class="step">Step 02 / C</span>The AI extensions</h3>
+      <h3><span class="step">Step 03 / C</span>The AI extensions</h3>
       <p>Hit <kbd>Ctrl + Shift + X</kbd> to open the Extensions panel. Install these three first:</p>
       <ul>
         <li><strong>Claude Code</strong> (Anthropic, official) — runs the Claude Code agent inside VS Code's sidebar with a hotkey. The headline tool.</li>
-        <li><strong>GitHub Copilot</strong> — autocompletes code as you type. Free tier gives you ~2,000 completions and 50 chats per month — plenty for a hobby project.</li>
+        <li><strong>GitHub Copilot</strong> — autocompletes code as you type. Free tier gives you ~2,000 completions and 50 chats per month — plenty for a hobby project. Activates automatically because you signed in with GitHub above.</li>
         <li><strong>GitHub Copilot Chat</strong> — the in-editor chat panel powered by Copilot.</li>
       </ul>
       <p>That trio gets you 95% of what Cursor does, free.</p>
 
-      <h3><span class="step">Step 02 / D</span>Web-dev essentials</h3>
+      <h3><span class="step">Step 03 / D</span>A small kit, on purpose</h3>
+      <p>Most VS Code extension lists are written for people typing every line themselves. You're not — Claude is. So skip the autocomplete + snippet maximalism and install these few, which actually pull weight when you're <em>reading</em> code instead of writing it:</p>
       <ul>
-        <li><strong>Prettier — Code formatter</strong> — auto-formats your code on save. Non-negotiable.</li>
-        <li><strong>ESLint</strong> — catches bugs and bad patterns as you type.</li>
-        <li><strong>Tailwind CSS IntelliSense</strong> — autocomplete for Tailwind class names. You'll use Tailwind constantly.</li>
-        <li><strong>Auto Rename Tag</strong> — change a <span class="kw">&lt;div&gt;</span> and the closing tag updates with you.</li>
-        <li><strong>Path Intellisense</strong> — autocomplete for file paths in imports.</li>
-        <li><strong>ES7+ React/Redux/React-Native snippets</strong> — type <span class="kw">rafce</span> + Tab to scaffold a React component.</li>
+        <li><strong>Error Lens</strong> — shows errors in red, inline next to the offending line. The single most useful extension when you're not a typing coder. You'll instantly see when something's broken.</li>
+        <li><strong>Pretty TypeScript Errors</strong> — translates TypeScript's cryptic walls of error text into readable English. Makes "what's wrong, and what do I tell Claude" obvious.</li>
+        <li><strong>Prettier — Code formatter</strong> — auto-formats every save so AI-generated code stays consistent and the diffs you read are clean.</li>
+        <li><strong>ESLint</strong> — flags real bugs and broken patterns. Pair with Error Lens above to actually see them.</li>
+        <li><strong>Material Icon Theme</strong> — file-type icons in the explorer. Helps you eyeball a project's structure at a glance.</li>
       </ul>
+      <p>That's it. If you ever start hand-coding and want typing helpers (Tailwind IntelliSense, snippet packs, Auto Rename Tag), grab them then — they're noise until then.</p>
 
-      <h3><span class="step">Step 02 / E</span>Quality-of-life extensions</h3>
-      <ul>
-        <li><strong>GitLens</strong> — supercharges the Source Control panel; shows "blame" inline next to each line.</li>
-        <li><strong>Error Lens</strong> — shows errors in red, inline next to the offending line. Saves a thousand hovers.</li>
-        <li><strong>Pretty TypeScript Errors</strong> — readable TS errors instead of the cryptic defaults.</li>
-        <li><strong>Material Icon Theme</strong> — file-type icons in the explorer that actually help you scan a project.</li>
-        <li><strong>Indent Rainbow</strong> — colors nested indentation, makes deeply-nested code legible.</li>
-      </ul>
-
-      <h3><span class="step">Step 02 / F</span>Two settings to flip</h3>
+      <h3><span class="step">Step 03 / E</span>Two settings to flip</h3>
       <p>Press <kbd>Ctrl + ,</kbd> (comma) to open Settings. Search and enable:</p>
       <ul>
         <li><strong>"Format On Save"</strong> — turn on. Prettier runs every time you hit save.</li>
@@ -604,50 +640,6 @@
       </ul>
 
       <div class="note"><b>Cursor as an alternative</b>If you decide later that you want AI even more deeply baked in, <a class="link" href="https://cursor.com/download" target="_blank" rel="noopener">Cursor ↗</a> is a paid VS Code fork with native AI editing. Your VS Code extensions all still work there. But you don't need it to start — VS Code + Claude Code + Copilot covers the same ground for free.</div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ───────── CH 3 — GIT & GITHUB ───────── -->
-<section class="chapter" id="ch3">
-  <div class="chapter-head">
-    <div class="ch-num">iii.</div>
-    <div>
-      <div class="ch-meta">Chapter 03 · Version Control</div>
-      <h2 class="ch-title">Git <em>&amp;</em> GitHub</h2>
-    </div>
-  </div>
-  <div class="chapter-body">
-    <aside class="ch-aside">
-      <span class="why">Why this matters</span>
-      <strong>Git</strong> is a time machine for your code — every save is a checkpoint you can return to. <strong>GitHub</strong> is where those checkpoints live in the cloud, shared with collaborators, deployed to servers, and tied to your portfolio.
-    </aside>
-    <div class="ch-content">
-
-      <h3><span class="step">Step 03 / A</span>Install Git</h3>
-      <div class="cmd"><button class="copy">Copy</button>winget install --id Git.Git -e</div>
-      <p>Close and reopen Terminal afterwards. Verify:</p>
-      <div class="cmd"><button class="copy">Copy</button>git --version</div>
-
-      <h3><span class="step">Step 03 / B</span>Tell Git who you are</h3>
-      <p>Replace the name and email with your own (use the same email you'll use for GitHub):</p>
-      <div class="cmd"><button class="copy">Copy</button>git config --global user.name "Your Name"</div>
-      <div class="cmd"><button class="copy">Copy</button>git config --global user.email "you@example.com"</div>
-      <div class="cmd"><button class="copy">Copy</button>git config --global init.defaultBranch main</div>
-
-      <h3><span class="step">Step 03 / C</span>Create a GitHub account</h3>
-      <a class="download" href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup <span class="arr">↗</span></a>
-      <p>Pick a username you'll be okay with for years — it shows up in every URL. Verify your email before continuing.</p>
-
-      <h3><span class="step">Step 03 / D</span>Install GitHub CLI &amp; sign in</h3>
-      <p>The GitHub CLI (<span class="kw">gh</span>) handles all the authentication headaches for you.</p>
-      <div class="cmd"><button class="copy">Copy</button>winget install --id GitHub.cli</div>
-      <p>Close and reopen Terminal. Then:</p>
-      <div class="cmd"><button class="copy">Copy</button>gh auth login</div>
-      <p>Choose: <strong>GitHub.com</strong> → <strong>HTTPS</strong> → <strong>Yes</strong> (auth Git with credentials) → <strong>Login with a web browser</strong>. Copy the one-time code, paste in the browser, done.</p>
-
-      <div class="note"><b>What just happened</b>You can now <span class="kw">git push</span> code to GitHub from any folder without ever typing a password. The CLI also lets you create repos with <span class="kw">gh repo create</span> and open PRs from the terminal.</div>
 
     </div>
   </div>
@@ -720,7 +712,7 @@
       <div class="cmd"><button class="copy">Copy</button>claude --version</div>
 
       <h3><span class="step">Step 05 / C</span>First run &amp; sign-in</h3>
-      <p>Move into any folder (we'll create one in Chapter 8). Then:</p>
+      <p>Move into any folder (we'll create one in Chapter 9). Then:</p>
       <div class="cmd"><button class="copy">Copy</button>claude</div>
       <p>It'll open a browser window — sign in with your Claude Pro account. From now on, just typing <span class="kw">claude</span> in any folder gives you an AI that knows your project.</p>
 
@@ -732,7 +724,7 @@
       </ul>
 
       <h3><span class="step">Step 05 / E</span>Inside VS Code</h3>
-      <p>If you installed the <strong>Claude Code extension</strong> back in Chapter 2, you can also launch the agent without leaving the editor. Open the command palette with <kbd>Ctrl + Shift + P</kbd> and type <em>"Claude Code: Start"</em> — same agent, sidebar instead of a terminal. Use whichever feels better moment to moment.</p>
+      <p>If you installed the <strong>Claude Code extension</strong> back in Chapter 3, you can also launch the agent without leaving the editor. Open the command palette with <kbd>Ctrl + Shift + P</kbd> and type <em>"Claude Code: Start"</em> — same agent, sidebar instead of a terminal. Use whichever feels better moment to moment.</p>
 
       <div class="note"><b>Etiquette</b>Always read the diff before approving a change. Claude is fast and confident — that combination occasionally produces fast, confident mistakes. Trust, but verify.</div>
 
