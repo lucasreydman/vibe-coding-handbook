@@ -477,7 +477,7 @@
 
   <div class="cover-meta">
     <div><b>Stack</b>Claude · GitHub · Vercel · Supabase</div>
-    <div><b>Time</b>~90 minutes</div>
+    <div><b>Time</b>~2 hours</div>
     <div><b>Difficulty</b>Beginner-friendly</div>
     <div><b>Cost</b>$20/mo Claude Pro · rest free tier</div>
   </div>
@@ -494,8 +494,10 @@
     <li><a href="#ch5">Claude Code</a><span class="pg">p. 20</span></li>
     <li><a href="#ch6">Vercel</a><span class="pg">p. 24</span></li>
     <li><a href="#ch7">Supabase</a><span class="pg">p. 28</span></li>
-    <li><a href="#ch8">Your First Vibe</a><span class="pg">p. 32</span></li>
-    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 36</span></li>
+    <li><a href="#ch8">Secrets &amp; Config</a><span class="pg">p. 32</span></li>
+    <li><a href="#ch9">Your First Vibe</a><span class="pg">p. 36</span></li>
+    <li><a href="#ch10">Stripe &amp; Resend · Bonus</a><span class="pg">p. 42</span></li>
+    <li><a href="#cheat">Appendix · Cheat Sheet</a><span class="pg">p. 50</span></li>
   </ol>
 </section>
 
@@ -550,29 +552,58 @@
   <div class="chapter-body">
     <aside class="ch-aside">
       <span class="why">Why this matters</span>
-      A code editor is your canvas. We use one with built-in AI — Cursor — because it lets you describe what you want and watches you write. This is the heart of "vibe coding."
+      A code editor is your canvas. We use VS Code because it's free, used by half the industry, and a few well-chosen extensions give it the same AI superpowers people pay $20/mo for in Cursor.
     </aside>
     <div class="ch-content">
 
-      <h3><span class="step">Step 02 / A</span>Install Cursor</h3>
-      <p>Cursor is a fork of VS Code with native AI. Install it directly:</p>
-      <a class="download" href="https://cursor.com/download" target="_blank" rel="noopener">cursor.com/download <span class="arr">↗</span></a>
+      <h3><span class="step">Step 02 / A</span>Install VS Code</h3>
+      <a class="download" href="https://code.visualstudio.com/Download" target="_blank" rel="noopener">code.visualstudio.com <span class="arr">↗</span></a>
       <p>Or via terminal:</p>
-      <div class="cmd"><button class="copy">Copy</button>winget install --id Anysphere.Cursor</div>
-
-      <h3><span class="step">Step 02 / B</span>(Optional) VS Code as a backup</h3>
-      <p>If you ever want the plain non-AI editor too:</p>
       <div class="cmd"><button class="copy">Copy</button>winget install --id Microsoft.VisualStudioCode</div>
 
-      <h3><span class="step">Step 02 / C</span>First-launch settings</h3>
-      <p>Open Cursor. When it asks:</p>
+      <h3><span class="step">Step 02 / B</span>First-launch settings</h3>
       <ul>
-        <li>Sign in with GitHub (we'll create that account next chapter — skip for now, come back)</li>
-        <li>Color theme: pick anything that makes you happy</li>
-        <li>Install the <strong>"code" command in PATH</strong> when prompted — this lets you type <span class="kw">cursor .</span> in any folder to open it</li>
+        <li>Sign in with GitHub when prompted (skip if you haven't created an account yet — Chapter 3)</li>
+        <li>Pick a color theme that doesn't fatigue your eyes</li>
+        <li>When asked, <strong>install the "code" command in PATH</strong> — that's what lets you type <span class="kw">code .</span> in any folder to open it</li>
       </ul>
 
-      <div class="note"><b>Tip</b>Press <kbd>Ctrl + L</kbd> in Cursor to open the AI sidebar. Press <kbd>Ctrl + K</kbd> while editing to ask the AI to write or rewrite the highlighted code.</div>
+      <h3><span class="step">Step 02 / C</span>The AI extensions</h3>
+      <p>Hit <kbd>Ctrl + Shift + X</kbd> to open the Extensions panel. Install these three first:</p>
+      <ul>
+        <li><strong>Claude Code</strong> (Anthropic, official) — runs the Claude Code agent inside VS Code's sidebar with a hotkey. The headline tool.</li>
+        <li><strong>GitHub Copilot</strong> — autocompletes code as you type. Free tier gives you ~2,000 completions and 50 chats per month — plenty for a hobby project.</li>
+        <li><strong>GitHub Copilot Chat</strong> — the in-editor chat panel powered by Copilot.</li>
+      </ul>
+      <p>That trio gets you 95% of what Cursor does, free.</p>
+
+      <h3><span class="step">Step 02 / D</span>Web-dev essentials</h3>
+      <ul>
+        <li><strong>Prettier — Code formatter</strong> — auto-formats your code on save. Non-negotiable.</li>
+        <li><strong>ESLint</strong> — catches bugs and bad patterns as you type.</li>
+        <li><strong>Tailwind CSS IntelliSense</strong> — autocomplete for Tailwind class names. You'll use Tailwind constantly.</li>
+        <li><strong>Auto Rename Tag</strong> — change a <span class="kw">&lt;div&gt;</span> and the closing tag updates with you.</li>
+        <li><strong>Path Intellisense</strong> — autocomplete for file paths in imports.</li>
+        <li><strong>ES7+ React/Redux/React-Native snippets</strong> — type <span class="kw">rafce</span> + Tab to scaffold a React component.</li>
+      </ul>
+
+      <h3><span class="step">Step 02 / E</span>Quality-of-life extensions</h3>
+      <ul>
+        <li><strong>GitLens</strong> — supercharges the Source Control panel; shows "blame" inline next to each line.</li>
+        <li><strong>Error Lens</strong> — shows errors in red, inline next to the offending line. Saves a thousand hovers.</li>
+        <li><strong>Pretty TypeScript Errors</strong> — readable TS errors instead of the cryptic defaults.</li>
+        <li><strong>Material Icon Theme</strong> — file-type icons in the explorer that actually help you scan a project.</li>
+        <li><strong>Indent Rainbow</strong> — colors nested indentation, makes deeply-nested code legible.</li>
+      </ul>
+
+      <h3><span class="step">Step 02 / F</span>Two settings to flip</h3>
+      <p>Press <kbd>Ctrl + ,</kbd> (comma) to open Settings. Search and enable:</p>
+      <ul>
+        <li><strong>"Format On Save"</strong> — turn on. Prettier runs every time you hit save.</li>
+        <li><strong>"Default Formatter"</strong> — set to <em>Prettier - Code formatter</em>.</li>
+      </ul>
+
+      <div class="note"><b>Cursor as an alternative</b>If you decide later that you want AI even more deeply baked in, <a class="link" href="https://cursor.com/download" target="_blank" rel="noopener">Cursor ↗</a> is a paid VS Code fork with native AI editing. Your VS Code extensions all still work there. But you don't need it to start — VS Code + Claude Code + Copilot covers the same ground for free.</div>
 
     </div>
   </div>
@@ -656,7 +687,7 @@
       <div class="cmd"><button class="copy">Copy</button>npm install -g pnpm</div>
       <div class="cmd"><button class="copy">Copy</button>pnpm --version</div>
 
-      <div class="note"><b>Plain English</b>Think of <span class="kw">npm</span>, <span class="kw">pnpm</span>, and <span class="kw">bun</span> as three different grocery delivery services for code libraries. You'll use whichever the project you cloned uses — they're mostly interchangeable, but you can't mix them in one project.</div>
+      <div class="note"><b>Plain English</b>Think of <span class="kw">npm</span>, <span class="kw">pnpm</span>, and <span class="kw">bun</span> as three different grocery delivery services for code libraries. You'll use whichever the project you cloned uses — they're mostly interchangeable, but you can't mix them in one project. <strong>This book defaults to <span class="kw">npm</span></strong> because it ships with Node and works everywhere; reach for <span class="kw">bun</span> or <span class="kw">pnpm</span> when you want speed or smaller installs.</div>
 
     </div>
   </div>
@@ -699,6 +730,9 @@
         <li><strong>"Build me X"</strong> — describe a feature, watch it implement, review the diff</li>
         <li><strong>"Why is this broken?"</strong> — paste the error, let it debug</li>
       </ul>
+
+      <h3><span class="step">Step 05 / E</span>Inside VS Code</h3>
+      <p>If you installed the <strong>Claude Code extension</strong> back in Chapter 2, you can also launch the agent without leaving the editor. Open the command palette with <kbd>Ctrl + Shift + P</kbd> and type <em>"Claude Code: Start"</em> — same agent, sidebar instead of a terminal. Use whichever feels better moment to moment.</p>
 
       <div class="note"><b>Etiquette</b>Always read the diff before approving a change. Claude is fast and confident — that combination occasionally produces fast, confident mistakes. Trust, but verify.</div>
 
@@ -772,7 +806,7 @@
       </ul>
 
       <h3><span class="step">Step 07 / C</span>Install the Supabase CLI</h3>
-      <p>Easiest way on Windows is via Scoop, but npm works too:</p>
+      <p>Install via npm:</p>
       <div class="cmd"><button class="copy">Copy</button>npm install -g supabase</div>
       <div class="cmd"><button class="copy">Copy</button>supabase login</div>
 
@@ -790,55 +824,209 @@
   </div>
 </section>
 
-<!-- ───────── CH 8 — FIRST VIBE ───────── -->
+<!-- ───────── CH 8 — SECRETS & CONFIG ───────── -->
 <section class="chapter" id="ch8">
   <div class="chapter-head">
     <div class="ch-num">viii.</div>
     <div>
-      <div class="ch-meta">Chapter 08 · Liftoff</div>
+      <div class="ch-meta">Chapter 08 · Configuration</div>
+      <h2 class="ch-title">Secrets <em>&amp;</em> Config</h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      Apps need keys — Supabase, Stripe, Resend, AI services. Some are safe to ship to the browser. Others, if leaked, can get you billed for someone else's crypto-mining habit. This chapter is how to keep them straight.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 08 / A</span>The <code>.env.local</code> file</h3>
+      <p>In any Next.js project, create a file called <span class="kw">.env.local</span> in the project root (next to <span class="kw">package.json</span>). Format:</p>
+      <div class="cmd multi"><button class="copy">Copy</button>NEXT_PUBLIC_SUPABASE_URL=https://abcd.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...
+STRIPE_SECRET_KEY=sk_test_...
+RESEND_API_KEY=re_...</div>
+      <p>One key per line. No quotes, no spaces around the <span class="kw">=</span>. In code, read them with <span class="kw">process.env.STRIPE_SECRET_KEY</span>.</p>
+
+      <h3><span class="step">Step 08 / B</span>Public vs server-only</h3>
+      <ul>
+        <li><strong>Public-safe</strong> — Supabase <em>anon</em> key, Stripe <em>publishable</em> key. Designed to be shipped to the browser. Prefix with <span class="kw">NEXT_PUBLIC_</span> to expose them on the frontend.</li>
+        <li><strong>Server-only</strong> — Supabase <em>service_role</em>, Stripe <em>secret</em> key, Resend API key, OpenAI/Anthropic keys. These bypass security. Never log them, never put them in client-side code, never commit them.</li>
+      </ul>
+
+      <h3><span class="step">Step 08 / C</span><code>.gitignore</code> — the no-fly list</h3>
+      <p>This is a file that tells Git to pretend certain files don't exist. Next.js auto-generates one with <span class="kw">.env*</span> and <span class="kw">node_modules</span> already in it — <strong>do not delete those lines.</strong> If you ever start a project from scratch, your <span class="kw">.gitignore</span> needs at minimum:</p>
+      <div class="cmd multi"><button class="copy">Copy</button>node_modules
+.env
+.env.local
+.next
+.DS_Store</div>
+
+      <h3><span class="step">Step 08 / D</span>Sync env vars to Vercel</h3>
+      <p>Your local <span class="kw">.env.local</span> isn't deployed — it stays on your machine. To give your live site its keys:</p>
+      <div class="cmd"><button class="copy">Copy</button>vercel env add STRIPE_SECRET_KEY</div>
+      <p>It'll prompt for the value and which environments (development / preview / production). Or use the Vercel dashboard → Project → Settings → Environment Variables. To pull cloud values <em>down</em> to your machine:</p>
+      <div class="cmd"><button class="copy">Copy</button>vercel env pull .env.local</div>
+
+      <div class="note"><b>If you commit a secret by accident</b>Rotate it <em>immediately</em> at the source — Supabase dashboard → revoke key, Stripe dashboard → roll secret, Resend → delete API key. Removing it from Git history is fiddly; rotating is instant and identical from a security standpoint. Then generate a fresh one, paste into <span class="kw">.env.local</span>, and redeploy.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 9 — FIRST VIBE ───────── -->
+<section class="chapter" id="ch9">
+  <div class="chapter-head">
+    <div class="ch-num">ix.</div>
+    <div>
+      <div class="ch-meta">Chapter 09 · Liftoff</div>
       <h2 class="ch-title">Your <em>First</em> Vibe</h2>
     </div>
   </div>
   <div class="chapter-body">
     <aside class="ch-aside">
       <span class="why">Why this matters</span>
-      A 10-minute walkthrough of the entire loop: idea → code → repo → live site. Once you've done it once, every project after this is muscle memory.
+      A walkthrough of the entire loop: idea → code → repo → live site. Once you've done it once, every project after this is muscle memory.
     </aside>
     <div class="ch-content">
 
-      <h3><span class="step">Step 08 / A</span>Make a projects folder</h3>
+      <h3><span class="step">Step 09 / A</span>Make a projects folder</h3>
       <div class="cmd multi"><button class="copy">Copy</button>mkdir $HOME\dev
 cd $HOME\dev</div>
 
-      <h3><span class="step">Step 08 / B</span>Create a Next.js app</h3>
+      <h3><span class="step">Step 09 / B</span>Create a Next.js app</h3>
       <p>Next.js is the most-used React framework — Vercel made it, so it deploys there in one click.</p>
       <div class="cmd"><button class="copy">Copy</button>npx create-next-app@latest my-first-vibe</div>
       <p>Accept all the defaults (TypeScript, Tailwind, App Router — yes to everything).</p>
       <div class="cmd"><button class="copy">Copy</button>cd my-first-vibe</div>
 
-      <h3><span class="step">Step 08 / C</span>Open it in Cursor</h3>
-      <div class="cmd"><button class="copy">Copy</button>cursor .</div>
+      <h3><span class="step">Step 09 / C</span>Open it in VS Code</h3>
+      <div class="cmd"><button class="copy">Copy</button>code .</div>
 
-      <h3><span class="step">Step 08 / D</span>Start the dev server</h3>
-      <p>Inside the Cursor terminal (<kbd>Ctrl + `</kbd> to open it):</p>
+      <h3><span class="step">Step 09 / D</span>Start the dev server</h3>
+      <p>Inside VS Code's terminal (<kbd>Ctrl + `</kbd> opens it):</p>
       <div class="cmd"><button class="copy">Copy</button>npm run dev</div>
       <p>Open <a class="link" href="http://localhost:3000" target="_blank" rel="noopener">localhost:3000 ↗</a>. Your app is live on your machine.</p>
 
-      <h3><span class="step">Step 08 / E</span>Vibe with Claude</h3>
-      <p>Open a second terminal tab and run:</p>
+      <h3><span class="step">Step 09 / E</span>Vibe with Claude</h3>
+      <p>Open a second terminal tab (<kbd>Ctrl + Shift + `</kbd>) and run:</p>
       <div class="cmd"><button class="copy">Copy</button>claude</div>
       <p>Try: <em>"Replace the home page with a cosmic-themed landing page for an app called 'StarMail.' Use the existing Tailwind setup."</em> Watch it work. Approve the diff. Refresh the browser.</p>
 
-      <h3><span class="step">Step 08 / F</span>Push to GitHub</h3>
+      <h3><span class="step">Step 09 / F</span>Add polish with shadcn/ui</h3>
+      <p><strong>shadcn/ui</strong> is the missing puzzle piece that takes vibe-coded apps from "looks like a default Next.js" to "looks shipped." It's a library of beautifully designed components you copy into your project. Set it up:</p>
+      <div class="cmd"><button class="copy">Copy</button>npx shadcn@latest init</div>
+      <p>Accept all defaults. Then add components on demand:</p>
+      <div class="cmd"><button class="copy">Copy</button>npx shadcn@latest add button card input dialog</div>
+      <p>Now ask Claude: <em>"Rebuild the home page using shadcn Button and Card components — a hero with a headline, subheadline, and a primary CTA."</em> Browse the full catalog at <a class="link" href="https://ui.shadcn.com" target="_blank" rel="noopener">ui.shadcn.com ↗</a>.</p>
+
+      <h3><span class="step">Step 09 / G</span>Debug with DevTools</h3>
+      <p>Press <kbd>F12</kbd> in your browser to open DevTools. Three tabs you'll live in:</p>
+      <ul>
+        <li><strong>Console</strong> — JavaScript errors land here in red. If your page is blank, check this first.</li>
+        <li><strong>Network</strong> — every request your app makes. Click any row to see the data going in and out.</li>
+        <li><strong>Elements</strong> — inspect the live HTML and CSS, edit on the fly to test changes.</li>
+      </ul>
+      <p>Workflow when something breaks: copy the red Console error → paste into Claude → "why is this happening, and how do I fix it?" 80% of bugs solved this way.</p>
+
+      <h3><span class="step">Step 09 / H</span>Push to GitHub</h3>
       <div class="cmd multi"><button class="copy">Copy</button>git add .
 git commit -m "first vibe"
 gh repo create --source=. --public --push</div>
 
-      <h3><span class="step">Step 08 / G</span>Deploy to Vercel</h3>
+      <h3><span class="step">Step 09 / I</span>Deploy to Vercel</h3>
       <div class="cmd"><button class="copy">Copy</button>vercel</div>
       <p>Hit enter through the prompts. Sixty seconds later, you have a public URL. Send it to a friend.</p>
 
-      <div class="note"><b>Welcome aboard, Griffin</b>You just shipped a website. From now on it's the same loop — code in Cursor with Claude, push to GitHub, Vercel deploys. The hard part was today. Send me the URL.</div>
+      <div class="note"><b>Welcome aboard, Griffin</b>You just shipped a website. From now on it's the same loop — code in VS Code with Claude, push to GitHub, Vercel deploys. The hard part was today. Send me the URL.</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ───────── CH 10 — STRIPE & RESEND ───────── -->
+<section class="chapter" id="ch10">
+  <div class="chapter-head">
+    <div class="ch-num">x.</div>
+    <div>
+      <div class="ch-meta">Chapter 10 · Bonus / When you're ready</div>
+      <h2 class="ch-title">Stripe <em>&amp;</em> Resend</h2>
+    </div>
+  </div>
+  <div class="chapter-body">
+    <aside class="ch-aside">
+      <span class="why">Why this matters</span>
+      For your ticketing-app idea, this is the spine. <strong>Stripe</strong> turns a customer's $35 into a payment in your account. <strong>Resend</strong> sends them their ticket. Together they handle "money in, ticket out." <em>Skip this chapter for your first throwaway project</em> — come back when you're ready to charge for something real.
+    </aside>
+    <div class="ch-content">
+
+      <h3><span class="step">Step 10 / A</span>Sign up for Stripe</h3>
+      <a class="download" href="https://dashboard.stripe.com/register" target="_blank" rel="noopener">Stripe sign-up <span class="arr">↗</span></a>
+      <p>You start in <strong>Test Mode</strong> by default — identical to live mode except no card actually charges and no money moves. Stay there until launch.</p>
+
+      <h3><span class="step">Step 10 / B</span>Install the Stripe CLI</h3>
+      <div class="cmd"><button class="copy">Copy</button>winget install --id Stripe.StripeCLI</div>
+      <div class="cmd"><button class="copy">Copy</button>stripe login</div>
+
+      <h3><span class="step">Step 10 / C</span>Stripe API keys</h3>
+      <p>Dashboard → <em>Developers → API keys</em>. You'll see two:</p>
+      <ul>
+        <li><span class="kw">pk_test_…</span> — <strong>publishable.</strong> Safe in browser code. Use as <span class="kw">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</span>.</li>
+        <li><span class="kw">sk_test_…</span> — <strong>secret.</strong> Server-only. Use as <span class="kw">STRIPE_SECRET_KEY</span> in <span class="kw">.env.local</span>.</li>
+      </ul>
+
+      <h3><span class="step">Step 10 / D</span>Install Stripe in your project</h3>
+      <div class="cmd"><button class="copy">Copy</button>npm install stripe @stripe/stripe-js</div>
+
+      <h3><span class="step">Step 10 / E</span>Webhooks (the part everyone forgets)</h3>
+      <p>When a payment finishes, Stripe doesn't tell your customer's browser — that could be tampered with. It sends a <em>webhook</em> directly to your server. That's the moment your code mints the ticket and emails it.</p>
+      <p>To test webhooks locally, run this in a separate terminal tab while your dev server is running:</p>
+      <div class="cmd"><button class="copy">Copy</button>stripe listen --forward-to localhost:3000/api/webhook</div>
+      <p>It prints a <span class="kw">whsec_…</span> value — that's your <span class="kw">STRIPE_WEBHOOK_SECRET</span> for local dev.</p>
+
+      <h3><span class="step">Step 10 / F</span>Test cards</h3>
+      <p>In test mode, real cards don't work — and these don't actually charge:</p>
+      <ul>
+        <li><span class="kw">4242 4242 4242 4242</span> — succeeds</li>
+        <li><span class="kw">4000 0000 0000 9995</span> — insufficient funds</li>
+        <li><span class="kw">4000 0000 0000 0002</span> — generic decline</li>
+        <li>Any future expiry date, any 3-digit CVC, any ZIP</li>
+      </ul>
+
+      <h3><span class="step">Step 10 / G</span>Sign up for Resend</h3>
+      <p>Resend is a developer-friendly email API — fast, cheap, with a beautiful dashboard. Free tier: <strong>3,000 emails/month, 100/day.</strong> More than enough to start a ticketing app.</p>
+      <a class="download" href="https://resend.com/signup" target="_blank" rel="noopener">resend.com/signup <span class="arr">↗</span></a>
+
+      <h3><span class="step">Step 10 / H</span>Resend API key &amp; install</h3>
+      <p>Dashboard → <em>API Keys → Create API Key</em>. Copy the <span class="kw">re_…</span> value into <span class="kw">.env.local</span> as <span class="kw">RESEND_API_KEY</span>. Then in the project:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install resend</div>
+      <p>Optional but recommended — write your emails as React components:</p>
+      <div class="cmd"><button class="copy">Copy</button>npm install @react-email/components</div>
+
+      <h3><span class="step">Step 10 / I</span>Verify a sending domain</h3>
+      <p>For real production sending, Resend Dashboard → <em>Domains → Add Domain</em>. They give you DNS records to add wherever you bought the domain (or via Vercel's domains panel). Until verified, use Resend's <span class="kw">onboarding@resend.dev</span> sender — it works for testing but only sends to your own verified email.</p>
+
+      <h3><span class="step">Step 10 / J</span>The ticketing flow, stitched</h3>
+      <p>For Griffin's ticketing app, here's the full loop:</p>
+      <ul>
+        <li>Customer clicks "Buy Ticket" → redirected to <strong>Stripe Checkout</strong> (Stripe-hosted page, easiest path)</li>
+        <li>Payment succeeds → Stripe sends a <span class="kw">checkout.session.completed</span> webhook to <span class="kw">/api/webhook</span></li>
+        <li>Your code: creates a row in Supabase (event ID, buyer email, ticket ID, QR token), generates a QR code, sends an email via Resend with the QR linked or attached</li>
+        <li>Returns 200 to Stripe so it doesn't retry</li>
+        <li>At the door: scanner hits a <span class="kw">/api/verify-ticket</span> endpoint with the QR token, your code marks it used, denies duplicates</li>
+      </ul>
+      <p>Once you've got keys in <span class="kw">.env.local</span>, ask Claude to scaffold this whole flow. It's ~200 lines of code you don't have to write.</p>
+
+      <h3><span class="step">Step 10 / K</span>Going live</h3>
+      <ul>
+        <li><strong>Stripe</strong> — toggle to Live Mode (top right of dashboard) → grab <span class="kw">pk_live_…</span> and <span class="kw">sk_live_…</span> → set as production-only env vars on Vercel. Don't put live keys in <span class="kw">.env.local</span>; keep your laptop in test mode forever.</li>
+        <li><strong>Resend</strong> — verify your domain, switch the sender from <span class="kw">onboarding@resend.dev</span> to <span class="kw">tickets@yourdomain.com</span>.</li>
+        <li><strong>Stripe Tax</strong> — toggle on in dashboard for automatic sales tax / VAT per buyer location.</li>
+        <li><strong>Stripe Connect</strong> — when you onboard third-party event organizers and split each ticket sale, this handles payouts and 1099s. Build it on day 100, not day one.</li>
+      </ul>
+
+      <div class="note"><b>The big picture</b>Money flows in through Stripe, ticket flows out through Resend, record-of-truth lives in Supabase. That's a real product — same architecture as half the SaaS you've ever paid for.</div>
 
     </div>
   </div>
@@ -852,9 +1040,10 @@ gh repo create --source=. --public --push</div>
 
     <div class="cheat-card">
       <h4>Daily Loop</h4>
-      <div class="row"><code>cursor .</code><span class="desc">Open the current folder in Cursor</span></div>
+      <div class="row"><code>code .</code><span class="desc">Open the current folder in VS Code</span></div>
       <div class="row"><code>npm run dev</code><span class="desc">Start local server (usually localhost:3000)</span></div>
       <div class="row"><code>claude</code><span class="desc">Launch Claude Code in this folder</span></div>
+      <div class="row"><code>F12</code><span class="desc">Open browser DevTools — Console for errors</span></div>
       <div class="row"><code>Ctrl + C</code><span class="desc">Stop any running terminal command</span></div>
     </div>
 
@@ -884,6 +1073,14 @@ gh repo create --source=. --public --push</div>
     </div>
 
     <div class="cheat-card">
+      <h4>shadcn/ui</h4>
+      <div class="row"><code>npx shadcn@latest init</code><span class="desc">Set up shadcn in this project</span></div>
+      <div class="row"><code>npx shadcn@latest add button</code><span class="desc">Add a single component</span></div>
+      <div class="row"><code>... add card input dialog</code><span class="desc">Add multiple at once</span></div>
+      <div class="row"><code>ui.shadcn.com</code><span class="desc">Browse the full component catalog</span></div>
+    </div>
+
+    <div class="cheat-card">
       <h4>Vercel</h4>
       <div class="row"><code>vercel</code><span class="desc">Deploy a preview</span></div>
       <div class="row"><code>vercel --prod</code><span class="desc">Deploy to production URL</span></div>
@@ -897,6 +1094,32 @@ gh repo create --source=. --public --push</div>
       <div class="row"><code>supabase init</code><span class="desc">Set up Supabase in this project</span></div>
       <div class="row"><code>supabase link</code><span class="desc">Connect local to cloud project</span></div>
       <div class="row"><code>supabase db pull</code><span class="desc">Snapshot the cloud schema</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Stripe</h4>
+      <div class="row"><code>stripe login</code><span class="desc">Auth the CLI</span></div>
+      <div class="row"><code>stripe listen --forward-to localhost:3000/api/webhook</code><span class="desc">Forward live events to local dev</span></div>
+      <div class="row"><code>4242 4242 4242 4242</code><span class="desc">Test card that always succeeds</span></div>
+      <div class="row"><code>Test Mode</code><span class="desc">Top-right of dashboard. Stay here until launch.</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>Resend</h4>
+      <div class="row"><code>npm install resend</code><span class="desc">Add to a project</span></div>
+      <div class="row"><code>RESEND_API_KEY=re_...</code><span class="desc">Goes in .env.local — server-only</span></div>
+      <div class="row"><code>onboarding@resend.dev</code><span class="desc">Test sender — sends only to your verified email</span></div>
+      <div class="row"><code>Domains → Add Domain</code><span class="desc">Verify yours before going live</span></div>
+    </div>
+
+    <div class="cheat-card">
+      <h4>VS Code Hotkeys</h4>
+      <div class="row"><code>Ctrl + P</code><span class="desc">Quick-open any file by name</span></div>
+      <div class="row"><code>Ctrl + Shift + P</code><span class="desc">Command palette — every action lives here</span></div>
+      <div class="row"><code>Ctrl + `</code><span class="desc">Toggle the integrated terminal</span></div>
+      <div class="row"><code>Ctrl + B</code><span class="desc">Toggle the sidebar</span></div>
+      <div class="row"><code>Ctrl + D</code><span class="desc">Select next occurrence of word</span></div>
+      <div class="row"><code>Alt + ↑/↓</code><span class="desc">Move the current line up or down</span></div>
     </div>
 
     <div class="cheat-card">
